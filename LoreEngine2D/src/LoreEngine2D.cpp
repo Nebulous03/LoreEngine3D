@@ -5,8 +5,8 @@
 
 int main()
 {
-	Window win;
-	win.createWindow("LoreEngine Test", 640, 480);
+	Window window("LoreEngine Test", 640, 480, WINDOWED);
+	window.createWindow();
 
 	Graphics::setGLClearColor(0.0f, 1.0f, 1.0f);
 
