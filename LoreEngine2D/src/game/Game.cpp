@@ -33,6 +33,40 @@ void Game::stop()
 	Graphics::terminateOpenGL();
 }
 
+void Game::loadInstance(const char* instanceName, Instance& instance)
+{
+	_activeInstances[instanceName] = &instance;
+	// Do other things to instance (load)
+}
+
+void Game::unloadInstance(const char* instanceName)
+{
+	Instance* inst = _activeInstances[instanceName];
+	// Do other things to instance (unload)
+	_activeInstances.erase(instanceName);
+}
+
+void Game::clearAllInstances()
+{
+	Instance* inst;
+	for (std::map<const char*, Instance*>::iterator i = _activeInstances.begin(); i != _activeInstances.end(); ++i)
+	{
+		inst = i->second;
+		// Do other things to instance (unload)
+	}
+	_activeInstances.clear();
+}
+
+void Game::updateAllInstances()
+{
+
+}
+
+Instance* Game::getActiveInstances()
+{
+	
+}
+
 Window* Game::getActiveWindow()
 {
 	return _activeWindow;
