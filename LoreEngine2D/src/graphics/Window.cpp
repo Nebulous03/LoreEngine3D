@@ -52,7 +52,7 @@ void Window::createWindow()
 		std::cout << "Error! : OpenGL must be initialized before a window can be generated!" << std::endl;
 	}
 
-	Game::setActiveWindow(this);	// Not sure if I like this here...
+	//Game::linkWindow(this);	// Not sure if I like this here...
 	setVisable(GL_TRUE);
 }
 

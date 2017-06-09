@@ -131,9 +131,12 @@
     <ClCompile Include="src\graphics\Renderer2D.cpp" />
     <ClCompile Include="src\graphics\Window.cpp" />
     <ClCompile Include="src\logic\Input.cpp" />
+    <ClCompile Include="src\logic\TickHandler.cpp" />
     <ClCompile Include="src\LoreEngine2D.cpp" />
     <ClCompile Include="src\math\Vector.cpp" />
     <ClCompile Include="src\utils\Console.cpp" />
+    <ClCompile Include="src\TestInstance.cpp" />
+    <ClCompile Include="src\TestGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\Game.h" />
@@ -144,9 +147,13 @@
     <ClInclude Include="src\graphics\Renderer2D.h" />
     <ClInclude Include="src\graphics\Window.h" />
     <ClInclude Include="src\logic\Input.h" />
+    <ClInclude Include="src\logic\Updatables.h" />
+    <ClInclude Include="src\logic\TickHandler.h" />
     <ClInclude Include="src\math\Math.h" />
     <ClInclude Include="src\math\Vector.h" />
     <ClInclude Include="src\utils\Console.h" />
+    <ClInclude Include="src\TestInstance.h" />
+    <ClInclude Include="src\TestGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,6 @@
 #pragma once
 #include "..\graphics\Window.h"
+#include "..\logic\TickHandler.h"
 #include "Instance.h"
 #include <map>
 
@@ -7,28 +8,38 @@
 #define GAME_RUNNING	1
 #define GAME_PAUSED		2
 
+class TickHandler; // This is bad...
+
 class Game {
 
 private:
-	Game();
 	static int _status;
 	static Window* _activeWindow;
-	static std::map<const char*, Instance*> _activeInstances;
+	static Instance* _activeInstance;
+
+	static TickHandler* _tickHandler;
 
 public:
+	Game();
 
-	static void start();
-	static void tick();
-	static void stop();
+	void start();
+	void stop();
 
-	static void loadInstance(const char* instanceName, Instance& instance);
-	static void unloadInstance(const char* instanceName);
-	static void clearAllInstances();
-	static void updateAllInstances();
+	virtual void onStart()	= 0;
+	virtual void onStop()	= 0;
+	virtual void onTick()	= 0;
+	virtual void onUpdate() = 0;
 
-	static Instance* getActiveInstances();
+	static void loadInstance(Instance* instance);
+	static void unloadActiveInstance();
+
+	static Instance* getActiveInstance();
 
 	static Window* getActiveWindow();
-	static void setActiveWindow(Window* window);
+	static void linkWindow(Window* window);
+
+	static int getStatus();
+
+	~Game();
 
 };
