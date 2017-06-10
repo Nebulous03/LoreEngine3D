@@ -1,11 +1,11 @@
 #pragma once
-#include "game\Instance.h"
+#include "game\Scene.h"
 #include "logic\Updatables.h"
 
-class TestInstance : public Instance , public Tickable, public Updateable {
+class TestScene : public Scene, public Tickable, public Updateable {
 
 public:
-	TestInstance();
+	TestScene();
 	void onLoad();
 	void onUnload();
 	void onTick();

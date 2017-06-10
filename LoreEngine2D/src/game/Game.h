@@ -1,7 +1,7 @@
 #pragma once
 #include "..\graphics\Window.h"
 #include "..\logic\TickHandler.h"
-#include "Instance.h"
+#include "Scene.h"
 #include <map>
 
 #define GAME_STOPPED	0
@@ -13,11 +13,11 @@ class TickHandler; // This is bad...
 class Game {
 
 private:
-	static int _status;
-	static Window* _activeWindow;
-	static Instance* _activeInstance;
-
-	static TickHandler* _tickHandler;
+	int _status;
+	Graphics* _graphics;
+	Window* _activeWindow;
+	TickHandler* _tickHandler;
+	Scene* _activeScene;
 
 public:
 	Game();
@@ -30,15 +30,17 @@ public:
 	virtual void onTick()	= 0;
 	virtual void onUpdate() = 0;
 
-	static void loadInstance(Instance* instance);
-	static void unloadActiveInstance();
+	void loadScene(Scene* scene);
+	void unloadActiveInstance();
 
-	static Instance* getActiveInstance();
+	Scene* getActiveScene();
+ 
+	Graphics* getGraphics();
 
-	static Window* getActiveWindow();
-	static void linkWindow(Window* window);
+	Window* getActiveWindow();
+	void linkWindow(Window* window);
 
-	static int getStatus();
+	int getStatus();
 
 	~Game();
 

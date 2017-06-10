@@ -1,30 +1,44 @@
 #pragma once
+#include "Window.h"
 
-#define GRAPHICS_NONE		000
-#define GRAPHICS_OPENGL		100
-#define GRAPHICS_DIRECTX12	200	// Maybe...
+#define LORE_GL_VERSION_MAJOR	4		// LoreEngine max OpenGL version
+#define LORE_GL_VERSION_MINOR	0		// LoreEngine min OpenGL version
+
+#define WINDOWED				0
+#define WINDOWED_FULLSCREEN		1
+#define FULLSCREEN				2
+
+#define GRAPHICS_NONE			000
+#define GRAPHICS_OPENGL			100
+#define GRAPHICS_DIRECTX12		200		// Maybe...
+
+class Window;	// I dont like this....
 
 class Graphics {
 
 private:
-	Graphics();
-	static bool _vSyncEnabled;
+	bool _vSyncEnabled;
+	Window* _window;
+	int _displayMode = WINDOWED;
 
 public:
+	Graphics(Window& window);
 
-	static int graphicsAPI;
-	static bool glInitialized;
+	int graphicsAPI;
+	bool glInitialized;
 
-	static void initializeOpenGL();
-	static void initializeDirectX12();
+	void initializeOpenGL();
+	void initializeDirectX12();
 
 	static void glErrorCallback(int error, const char* description);
 
-	static void terminateOpenGL();
+	void terminateOpenGL();
 
-	static void setvSync(bool vsync);
-	static bool isvSyncEnabled();
+	void setvSync(bool vsync);
+	bool isvSyncEnabled();
 
-	static void setGLClearColor(float red, float green, float blue);
+	void setGLClearColor(float red, float green, float blue);
 
+	void setDisplayMode(int displayMode);
+	int  getDisplayMode();
 };

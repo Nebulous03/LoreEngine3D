@@ -124,7 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\game\Game.cpp" />
-    <ClCompile Include="src\game\Instance.cpp" />
+    <ClCompile Include="src\game\Scene.cpp" />
     <ClCompile Include="src\graphics\component\Renderable.cpp" />
     <ClCompile Include="src\graphics\Graphics.cpp" />
     <ClCompile Include="src\entity\Entity.cpp" />
@@ -135,12 +135,12 @@
     <ClCompile Include="src\LoreEngine2D.cpp" />
     <ClCompile Include="src\math\Vector.cpp" />
     <ClCompile Include="src\utils\Console.cpp" />
-    <ClCompile Include="src\TestInstance.cpp" />
+    <ClCompile Include="src\TestScene.cpp" />
     <ClCompile Include="src\TestGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\Game.h" />
-    <ClInclude Include="src\game\Instance.h" />
+    <ClInclude Include="src\game\Scene.h" />
     <ClInclude Include="src\graphics\component\Renderable.h" />
     <ClInclude Include="src\graphics\Graphics.h" />
     <ClInclude Include="src\entity\Entity.h" />
@@ -152,7 +152,7 @@
     <ClInclude Include="src\math\Math.h" />
     <ClInclude Include="src\math\Vector.h" />
     <ClInclude Include="src\utils\Console.h" />
-    <ClInclude Include="src\TestInstance.h" />
+    <ClInclude Include="src\TestScene.h" />
     <ClInclude Include="src\TestGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

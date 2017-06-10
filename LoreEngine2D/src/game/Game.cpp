@@ -2,54 +2,59 @@
 #include "..\graphics\Graphics.h"
 #include <iostream>
 
-int Game::_status = GAME_STOPPED;
-Window* Game::_activeWindow = nullptr;
-Instance* Game::_activeInstance = nullptr;
-TickHandler* Game::_tickHandler = nullptr;
-
 Game::Game()
 {
-	_tickHandler = new TickHandler(*this, 60.0);
+	_status		  = GAME_STOPPED;
+	_activeWindow = nullptr;
+	_graphics	  = nullptr;
+	_tickHandler  = new TickHandler(*this, 60.0);
+	_activeScene  = nullptr;
 }
 
 void Game::start()
 {
 	// Call other start functions here
-	_status = GAME_RUNNING;	//Mode to tickhandler
-	onStart();
+	_status = GAME_RUNNING;	//Move to tickhandler
 	_tickHandler->run();
 }
 
 void Game::stop()
 {
 	// Call other stop functions here
+	_status = GAME_STOPPED;
 	onStop();
 	unloadActiveInstance();
 	_activeWindow->destroyWindow();
-	Graphics::terminateOpenGL();
+	_graphics->terminateOpenGL();
 }
 
-void Game::loadInstance(Instance* instance)
+void Game::loadScene(Scene* scene)
 {
 	// TODO: Check for active instance
-	_activeInstance = instance;
-	_activeInstance->onLoad();
+	_activeScene = scene;
+	_activeScene->onLoad();
 }
 
 void Game::unloadActiveInstance()
 {
-	if (_activeInstance) {
-		_activeInstance->onUnload();
-		_activeInstance = nullptr;
+	if (_activeScene) {
+		_activeScene->onUnload();
+		//delete _activeScene; // Maybe?
+		_activeScene = nullptr;
 	}
 	else {
 		std::cout << "Attempted to unload instance, but no instance is active." << std::endl;
 	}
 }
 
-Instance* Game::getActiveInstance()
+Graphics* Game::getGraphics()
 {
-	return _activeInstance;
+	return _graphics;
+}
+
+Scene* Game::getActiveScene()
+{
+	return _activeScene;
 }
 
 Window* Game::getActiveWindow()
@@ -59,7 +64,7 @@ Window* Game::getActiveWindow()
 
 void Game::linkWindow(Window* window)
 {
-	glfwMakeContextCurrent(window->getGLWindow());	// Might move back to window
+	_graphics = window->getGraphics();
 	_activeWindow = window;
 }
 

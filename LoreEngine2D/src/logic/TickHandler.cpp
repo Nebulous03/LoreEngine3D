@@ -28,6 +28,7 @@ void TickHandler::registerFastUpdateEvent(FastUpdateable* fastUpdatable)
 
 void TickHandler::run()
 {
+	_game->onStart();
 	Window* window = _game->getActiveWindow();
 	while (_game->getStatus())
 	{

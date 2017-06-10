@@ -1,6 +1,6 @@
 #pragma once
 
-class Instance {
+class Scene {
 
 public:
 	virtual void onLoad() = 0;

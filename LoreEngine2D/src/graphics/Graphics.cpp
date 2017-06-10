@@ -2,9 +2,13 @@
 #include <iostream>
 #include <GLFW\glfw3.h>
 
-int Graphics::graphicsAPI = GRAPHICS_NONE;
-bool Graphics::glInitialized = false;
-bool Graphics::_vSyncEnabled = false;
+Graphics::Graphics(Window& window)
+{
+	graphicsAPI = GRAPHICS_NONE;
+	glInitialized = false;
+	_vSyncEnabled = false;
+	_window = &window;
+}
 
 // Initializes OpenGL graphics
 void Graphics::initializeOpenGL()
@@ -53,4 +57,15 @@ void Graphics::setvSync(bool vsync)
 bool Graphics::isvSyncEnabled()
 {
 	return _vSyncEnabled;
+}
+
+void Graphics::setDisplayMode(int displayMode)
+{
+	_displayMode = displayMode;
+	_window->rebuild();
+}
+
+int Graphics::getDisplayMode()
+{
+	return _displayMode;
 }

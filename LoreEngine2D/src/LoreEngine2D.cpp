@@ -1,20 +1,22 @@
 #include "graphics\Graphics.h"
 #include "graphics\Window.h"
-#include "TestInstance.h"
 #include "TestGame.h"
 #include <iostream>
 
 int main()
 {
-	TestGame testGame;										// Create Game Instance
-	Window window("LoreEngine Test", 640, 480, WINDOWED);	// Create Window
+	TestGame testGame;													// Create Game Instance
 
-	testGame.linkWindow(&window);							// Link Window
-	window.createWindow();									// Create Window
+	Window window("LoreEngine Test", 640, 480, WINDOWED);				// Create Window
+	window.createWindow();												// Create Window
 
-	Graphics::setGLClearColor(0.0f, 1.0f, 1.0f);			// Set Graphics parameters - Move before create?
+	testGame.linkWindow(&window);										// Link Window
 
-	testGame.start();										// Start Game
+	testGame.getGraphics()->setGLClearColor(0.0f, 0.04f, 0.06f);		// Set Graphics parameters - Move before create?
+	//testGame.getGraphics()->setDisplayMode(WINDOWED_FULLSCREEN);
+	testGame.getGraphics()->setvSync(true);
+
+	testGame.start();													// Start Game
 
 	system("PAUSE");
 	return 0;

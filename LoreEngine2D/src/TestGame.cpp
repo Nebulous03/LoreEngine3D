@@ -1,12 +1,12 @@
 #include "TestGame.h"
-#include "TestInstance.h"
+#include "TestScene.h"
 #include <iostream>
 
 void TestGame::onStart()
 {
 	std::cout << "TestGame - On Start" << std::endl;
-	TestInstance* inst = new TestInstance();				// Create Instance
-	loadInstance(inst);			// Load Instace
+	TestScene* scene = new TestScene();						// Create Instance
+	loadScene(scene);										// Load Instace
 }
 
 void TestGame::onStop()
