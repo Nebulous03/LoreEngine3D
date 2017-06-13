@@ -1,8 +1,7 @@
 #pragma once
 #include "game\Scene.h"
-#include "logic\Updatables.h"
 
-class TestScene : public Scene, public Tickable, public Updateable {
+class TestScene : public Scene {
 
 public:
 	TestScene();
@@ -10,4 +9,5 @@ public:
 	void onUnload();
 	void onTick();
 	void onUpdate();
+	void onRender();
 };

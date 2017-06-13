@@ -2,7 +2,7 @@
 #include "Window.h"
 #include <iostream>
 
-Window::Window(char* title = "LoreEngine2D - Core", int width = 640, int height = 480, int displayMode = WINDOWED) :
+Window::Window(char* title = "LoreEngine2D - Core", int width = 640, int height = 480, DisplayMode displayMode = WINDOWED) :
 	_title(title), _width(width), _height(height)
 {
 	_graphics = new Graphics(*this);
@@ -22,6 +22,12 @@ void Window::createWindow()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, LORE_GL_VERSION_MINOR);
 	glfwWindowHint(GLFW_FOCUSED, true);
 
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+
 	if (_graphics->glInitialized)
 		build();
 	else
@@ -34,6 +40,7 @@ void Window::createWindow()
 
 void Window::build()
 {
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 	switch (_graphics->getDisplayMode())
 	{
 	default:
@@ -43,14 +50,7 @@ void Window::build()
 	}
 	case WINDOWED_FULLSCREEN:
 	{
-		const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
-		glfwWindowHint(GLFW_RED_BITS, mode->redBits);
-		glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
-		glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
-		glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
 		_window = glfwCreateWindow(mode->width, mode->height, _title, glfwGetPrimaryMonitor(), NULL);
 		break;
 	}
@@ -61,27 +61,55 @@ void Window::build()
 	}
 	}
 
+	glClearColor(0.0f, 0.04f, 0.06f, 1.0f);
+
 	if (!_window)
 		std::cout << "Error! : Failed to generate GLFW Window!" << std::endl;
 
 	glfwMakeContextCurrent(_window);
 }
 
-void Window::rebuild()
-{
-	destroyWindow();
-	build();
-}
-
-void Window::updateWindow() const
+void Window::clear() const
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Window::update() const
+{
+	glfwPollEvents();	// Maybe move to input?
 	glfwSwapBuffers(_window);
 }
 
 void Window::destroyWindow() const
 {
 	glfwDestroyWindow(_window);
+}
+
+void Window::setDisplayMode(int displayMode)
+{
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	switch (displayMode)
+	{
+	case WINDOWED:
+		// Fix somehow?
+		break;
+	case WINDOWED_FULLSCREEN:
+		glfwSetWindowMonitor(_window, glfwGetPrimaryMonitor(), 0, 0, mode->width, mode->height, -1);
+		break;
+	case FULLSCREEN :
+		glfwSetWindowMonitor(_window, glfwGetPrimaryMonitor(), 0, 0, _width, _height, -1);
+		break;
+	}
+}
+
+DisplayMode Window::getDisplayMode()
+{
+	return _displayMode;
+}
+
+void Window::resize(int width, int height)
+{
+	glfwSetWindowSize(_window, width, height);
 }
 
 void Window::setVisable(bool visable)

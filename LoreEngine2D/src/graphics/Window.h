@@ -2,7 +2,13 @@
 #include <GLFW\glfw3.h>
 #include "Graphics.h"
 
-class Graphics; // I dont like this...
+#define WINDOWED				0
+#define WINDOWED_FULLSCREEN		1
+#define FULLSCREEN				2
+
+typedef unsigned int DisplayMode;
+
+class Graphics;
 
 class Window {
 
@@ -14,18 +20,23 @@ private:
 	int   _width	= 640;
 	int   _height	= 480;
 
+	DisplayMode _displayMode = WINDOWED;
+
 	Graphics* _graphics = nullptr;
 
 	bool  _visable  = false;
 
 public:
-	Window(char*, int, int, int);
+	Window(char*, int, int, DisplayMode);
 	void createWindow();
 	void build();
-	void rebuild();
 	void destroyWindow() const;
-	void updateWindow() const;
-	void setVisable(bool visable);
+	void clear() const;
+	void update() const;
+	void resize(int, int);
+	void setDisplayMode(int);
+	DisplayMode getDisplayMode();
+	void setVisable(bool);
 	bool isVisable() const;
 	int getHeight() const;
 	int getWidth() const;

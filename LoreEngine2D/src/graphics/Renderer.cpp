@@ -1,4 +1,4 @@
-#include "Renderer2D.h"
+#include "Renderer.h"
 
 void Renderer::push(Entity* renderable)
 {

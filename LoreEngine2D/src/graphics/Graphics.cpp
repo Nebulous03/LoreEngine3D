@@ -27,17 +27,6 @@ void Graphics::initializeOpenGL()
 	glInitialized = true;
 }
 
-void Graphics::glErrorCallback(int error, const char* description)
-{
-	std::cout << "Fatal Error! : OpenGL encountered an internal error! [" << error << "]\n\t" << description << std::endl;
-}
-
-void Graphics::terminateOpenGL()
-{
-	glfwTerminate();
-	std::cout << "OpenGL successfully terminated." << std::endl;
-}
-
 void Graphics::initializeDirectX12()
 {
 	// Haha thats funny
@@ -59,13 +48,34 @@ bool Graphics::isvSyncEnabled()
 	return _vSyncEnabled;
 }
 
-void Graphics::setDisplayMode(int displayMode)
+void Graphics::resizeWindow(int width, int height)
 {
-	_displayMode = displayMode;
-	_window->rebuild();
+	_window->resize(width, height);
+}
+
+void Graphics::setDisplay(DisplayMode displayMode, int width, int height)
+{
+	resizeWindow(width, height);
+	setDisplayMode(displayMode);
+}
+
+void Graphics::setDisplayMode(DisplayMode displayMode)
+{
+	_window->setDisplayMode(displayMode);
 }
 
 int Graphics::getDisplayMode()
 {
-	return _displayMode;
+	return _window->getDisplayMode();
+}
+
+void Graphics::glErrorCallback(int error, const char* description)
+{
+	std::cout << "Fatal Error! : OpenGL encountered an internal error! [" << error << "]\n\t" << description << std::endl;
+}
+
+void Graphics::terminateOpenGL()
+{
+	glfwTerminate();
+	std::cout << "OpenGL successfully terminated." << std::endl;
 }

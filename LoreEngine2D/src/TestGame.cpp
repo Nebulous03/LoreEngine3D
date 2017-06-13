@@ -16,7 +16,7 @@ void TestGame::onStop()
 
 void TestGame::onTick()
 {
-
+	
 }
 
 void TestGame::onUpdate()

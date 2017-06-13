@@ -12,8 +12,8 @@ int main()
 
 	testGame.linkWindow(&window);										// Link Window
 
-	testGame.getGraphics()->setGLClearColor(0.0f, 0.04f, 0.06f);		// Set Graphics parameters - Move before create?
-	//testGame.getGraphics()->setDisplayMode(WINDOWED_FULLSCREEN);
+	testGame.getGraphics()->setGLClearColor(0.0f, 0.04f, 0.06f);
+	//testGame.getGraphics()->setDisplay(WINDOWED_FULLSCREEN, 640, 480);
 	testGame.getGraphics()->setvSync(true);
 
 	testGame.start();													// Start Game
