@@ -12,12 +12,14 @@ int main()
 
 	testGame.linkWindow(&window);										// Link Window
 
+	std::cout << testGame.getGraphics()->getGLSpecs().c_str();
+
 	testGame.getGraphics()->setGLClearColor(0.0f, 0.04f, 0.06f);
 	//testGame.getGraphics()->setDisplay(WINDOWED_FULLSCREEN, 640, 480);
 	testGame.getGraphics()->setvSync(true);
 
 	testGame.start();													// Start Game
 
-	system("PAUSE");
+	//system("PAUSE");
 	return 0;
 }

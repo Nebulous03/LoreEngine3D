@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "..\graphics\Graphics.h"
 #include <iostream>
+#include "../utils/LoreInfo.h"
+#include "../logic/Input.h"
 
 Game::Game()
 {
@@ -9,6 +11,22 @@ Game::Game()
 	_graphics	  = nullptr;
 	_tickHandler  = new TickHandler(*this, 60.0);
 	_activeScene  = nullptr;
+	_input		  = nullptr;
+
+	// Move ?
+	std::cout << " ================================================================================================" << std::endl;
+	std::cout << "  LORE GAME ENGINE " << std::endl;
+	std::cout << "   Verson: " << LORE_VERSION << std::endl;
+	std::cout << "   Author: " << LORE_AUTHOR << std::endl;
+	std::cout << "   Copyright: " << LORE_COPYRIGHT << std::endl;
+	std::cout << " ================================================================================================" << std::endl;
+
+}
+
+void Game::initialize()
+{
+	_input = new Input(*_activeWindow);
+	_input->init();
 }
 
 void Game::start()
@@ -16,6 +34,7 @@ void Game::start()
 	// Call other start functions here
 	_status = GAME_RUNNING;	//Move to tickhandler
 	_tickHandler->run();
+
 }
 
 void Game::stop()
@@ -60,6 +79,11 @@ Scene* Game::getActiveScene()
 Window* Game::getActiveWindow()
 {
 	return _activeWindow;
+}
+
+Input* Game::getInput()
+{
+	return _input;
 }
 
 void Game::linkWindow(Window* window)

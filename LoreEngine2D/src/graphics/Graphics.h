@@ -1,5 +1,6 @@
 #pragma once
 #include "Window.h"
+#include <string>
 
 #define LORE_GL_VERSION_MAJOR	4		// LoreEngine max OpenGL version
 #define LORE_GL_VERSION_MINOR	0		// LoreEngine min OpenGL version
@@ -33,6 +34,9 @@ public:
 	void setDisplayMode(DisplayMode displayMode);
 	int  getDisplayMode();
 	void terminateOpenGL();
+
+	const char* getOpenGLVersion();
+	std::string getGLSpecs();
 
 	static void glErrorCallback(int error, const char* description);
 };

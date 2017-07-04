@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include <windows.h> // BADDDDD
 #include <iostream>
 #include <GLFW\glfw3.h>
 
@@ -15,9 +16,9 @@ void Graphics::initializeOpenGL()
 {
 	// Initialize OpenGL API
 	if (glfwInit() == GLFW_FALSE)
-		std::cout << "Fatal Error! : OpenGL failed to initialize! (glfwInit() = GLFW_FALSE)" << std::endl;
+		std::cout << " Fatal Error! : OpenGL failed to initialize! (glfwInit() = GLFW_FALSE)" << std::endl;
 	else
-		std::cout << "OpenGL initialized successfully!" << std::endl;
+		std::cout << " OpenGL initialized successfully!" << std::endl;
 
 	// Set GL error callback
 	// (Runs when GL errors)
@@ -71,11 +72,33 @@ int Graphics::getDisplayMode()
 
 void Graphics::glErrorCallback(int error, const char* description)
 {
-	std::cout << "Fatal Error! : OpenGL encountered an internal error! [" << error << "]\n\t" << description << std::endl;
+	std::cout << " Fatal Error! : OpenGL encountered an internal error! [" << error << "]\n\t" << description << std::endl;
 }
 
 void Graphics::terminateOpenGL()
 {
 	glfwTerminate();
-	std::cout << "OpenGL successfully terminated." << std::endl;
+	std::cout << " OpenGL successfully terminated." << std::endl;
+}
+
+const char* Graphics::getOpenGLVersion()
+{
+	return 0;
+}
+
+std::string Graphics::getGLSpecs()
+{
+	std::string result;
+
+	char path[MAX_PATH];
+	std::string(path, GetModuleFileName(NULL, path, MAX_PATH));
+
+	result += " ------------------------------------------------------------------------------------------------\n";
+	result = result + "  OPENGL VERSION: " + (char*)(glGetString(GL_VERSION)) + "\n";
+	result = result + "  GRAPHICS HARDWARE: " + (char*)(glGetString(GL_RENDERER)) + "\n";
+	result = result + "  VENDORS: " + (char*)(glGetString(GL_VENDOR)) + "\n";
+	result = result + "  DIRECTORY: " + path + "\n";
+	result += " ------------------------------------------------------------------------------------------------\n";
+
+	return result;
 }

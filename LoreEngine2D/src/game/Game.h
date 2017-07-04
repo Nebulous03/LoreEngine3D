@@ -1,6 +1,7 @@
 #pragma once
 #include "..\graphics\Window.h"
 #include "..\logic\TickHandler.h"
+#include "..\logic\Input.h"
 #include "Scene.h"
 #include <map>
 
@@ -18,9 +19,12 @@ private:
 	Window* _activeWindow;
 	TickHandler* _tickHandler;
 	Scene* _activeScene;
+	Input* _input;
 
 public:
 	Game();
+
+	void initialize();
 
 	void start();
 	void stop();
@@ -34,10 +38,10 @@ public:
 	void unloadActiveInstance();
 
 	Scene* getActiveScene();
- 
 	Graphics* getGraphics();
-
 	Window* getActiveWindow();
+	Input* getInput();
+
 	void linkWindow(Window* window);
 
 	int getStatus();

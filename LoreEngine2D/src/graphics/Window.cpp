@@ -31,7 +31,7 @@ void Window::createWindow()
 	if (_graphics->glInitialized)
 		build();
 	else
-		std::cout << "Error! : OpenGL must be initialized before a window can be generated!" << std::endl;
+		std::cout << " Error! : OpenGL must be initialized before a window can be generated!" << std::endl;
 
 	glClearColor(0.0f, 0.04f, 0.06f, 1.0f);	// Default Color
 	setVisable(GL_TRUE);
@@ -64,9 +64,14 @@ void Window::build()
 	glClearColor(0.0f, 0.04f, 0.06f, 1.0f);
 
 	if (!_window)
-		std::cout << "Error! : Failed to generate GLFW Window!" << std::endl;
+		std::cout << " Error! : Failed to generate GLFW Window!" << std::endl;
 
 	glfwMakeContextCurrent(_window);
+
+	if (glewInit() != GLEW_OK)
+		std::cout << " Error! : Failed to initialize GLEW!" << std::endl;
+	else 
+		std::cout << " GLEW initialized successfully!" << std::endl;
 }
 
 void Window::clear() const

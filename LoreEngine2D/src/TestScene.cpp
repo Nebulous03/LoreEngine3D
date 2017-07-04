@@ -1,6 +1,6 @@
 #include "TestScene.h"
 #include <iostream>
-#include <GLFW\glfw3.h>
+#include <GL\glew.h>
 
 TestScene::TestScene()
 {
@@ -9,12 +9,12 @@ TestScene::TestScene()
 
 void TestScene::onLoad()
 {
-	std::cout << "Instance Loaded!" << std::endl;
+	std::cout << " Instance Loaded!" << std::endl;
 }
 
 void TestScene::onUnload()
 {
-	std::cout << "Instance Unloaded!" << std::endl;
+	std::cout << " Instance Unloaded!" << std::endl;
 }
 
 void TestScene::onTick()
