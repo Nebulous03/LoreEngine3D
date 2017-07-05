@@ -3,7 +3,7 @@
 
 # LoreEngine ignores
 Libraries/
-LoreEngine2D/libs/
+LoreEngine3D/libs/
 
 # User-specific files
 *.suo
