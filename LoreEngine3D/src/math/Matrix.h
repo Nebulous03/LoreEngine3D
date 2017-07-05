@@ -1,6 +1,9 @@
 #pragma once
-
 #include "Vector.h"
+
+#define X_AXIS Vector3f(1,0,0)
+#define Y_AXIS Vector3f(0,1,0)
+#define Z_AXIS Vector3f(0,0,1)
 
 #define MATRIX4F_SIZE 4 * 4
 
@@ -12,7 +15,7 @@ struct Matrix4f {
 		Vector4f columns[4];
 	};
 
-	Matrix4f() = default;
+	Matrix4f();
 	Matrix4f(const float fill);
 
 	Matrix4f& add(const Matrix4f& other);
@@ -50,6 +53,9 @@ struct Matrix4f {
 	static Matrix4f Translation(const Vector3f& pos);
 	static Matrix4f Rotation(const Vector3f& axis, const float angle);
 	static Matrix4f Scale(const Vector3f& scale);
+
+	static Matrix4f Translation(const float x, const float y, const float z);
+	static Matrix4f Scale(const float sx, const float sy, const float sz);
 
 	bool operator==(const Matrix4f& other);
 	bool operator!=(const Matrix4f& other);

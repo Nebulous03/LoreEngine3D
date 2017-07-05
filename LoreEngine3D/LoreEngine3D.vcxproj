@@ -97,7 +97,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -109,6 +109,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -121,7 +122,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -137,6 +138,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -147,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\Scene.cpp" />
+    <ClCompile Include="src\graphics\buffers\Buffers.cpp" />
     <ClCompile Include="src\graphics\Graphics.cpp" />
     <ClCompile Include="src\entity\Entity.cpp" />
     <ClCompile Include="src\graphics\Renderer.cpp" />
@@ -160,10 +163,12 @@
     <ClCompile Include="src\utils\Console.cpp" />
     <ClCompile Include="src\TestScene.cpp" />
     <ClCompile Include="src\TestGame.cpp" />
+    <ClCompile Include="src\utils\FileUtilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\Game.h" />
     <ClInclude Include="src\game\Scene.h" />
+    <ClInclude Include="src\graphics\buffers\Buffers.h" />
     <ClInclude Include="src\graphics\Graphics.h" />
     <ClInclude Include="src\entity\Entity.h" />
     <ClInclude Include="src\graphics\Renderer.h" />
@@ -178,8 +183,12 @@
     <ClInclude Include="src\utils\Console.h" />
     <ClInclude Include="src\TestScene.h" />
     <ClInclude Include="src\TestGame.h" />
-    <ClInclude Include="src\utils\FIleHander.h" />
+    <ClInclude Include="src\utils\FileUtilites.h" />
     <ClInclude Include="src\utils\LoreInfo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\default.fs" />
+    <None Include="res\shaders\default.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

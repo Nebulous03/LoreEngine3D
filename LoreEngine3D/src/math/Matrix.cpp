@@ -172,6 +172,24 @@ Matrix4f Matrix4f::Scale(const Vector3f& scale)
 	return m;
 }
 
+Matrix4f Matrix4f::Translation(const float x, const float y, const float z)
+{
+	Matrix4f m = Matrix4f::Identity();
+	m.elements[0 + 3 * 4] = x;
+	m.elements[1 + 3 * 4] = y;
+	m.elements[2 + 3 * 4] = z;
+	return m;
+}
+
+Matrix4f Matrix4f::Scale(const float sx, const float sy, const float sz)
+{
+	Matrix4f m = Matrix4f::Identity();
+	m.elements[0 + 0 * 4] = sx;
+	m.elements[1 + 1 * 4] = sy;
+	m.elements[2 + 2 * 4] = sz;
+	return m;
+}
+
 bool Matrix4f::operator==(const Matrix4f& other)
 {
 	for (int i = 0; i > (sizeof(elements) / sizeof(elements[0])); i++)

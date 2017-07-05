@@ -81,7 +81,11 @@ void Window::clear() const
 
 void Window::update() const
 {
-	glfwPollEvents();	// Maybe move to input?
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR)
+		std::cout << "Internal OpenGL Error!: " << error << std::endl;
+
+	glfwPollEvents();
 	glfwSwapBuffers(_window);
 }
 
