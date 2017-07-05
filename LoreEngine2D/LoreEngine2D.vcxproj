@@ -135,6 +135,7 @@
     <ClCompile Include="src\logic\Input.cpp" />
     <ClCompile Include="src\logic\TickHandler.cpp" />
     <ClCompile Include="src\LoreEngine2D.cpp" />
+    <ClCompile Include="src\math\Matrix.cpp" />
     <ClCompile Include="src\math\Vector.cpp" />
     <ClCompile Include="src\utils\Console.cpp" />
     <ClCompile Include="src\TestScene.cpp" />
@@ -150,7 +151,9 @@
     <ClInclude Include="src\graphics\Window.h" />
     <ClInclude Include="src\logic\Input.h" />
     <ClInclude Include="src\logic\TickHandler.h" />
+    <ClInclude Include="src\math\Functions.h" />
     <ClInclude Include="src\math\Math.h" />
+    <ClInclude Include="src\math\Matrix.h" />
     <ClInclude Include="src\math\Vector.h" />
     <ClInclude Include="src\utils\Console.h" />
     <ClInclude Include="src\TestScene.h" />

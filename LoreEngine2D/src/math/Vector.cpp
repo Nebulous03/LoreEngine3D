@@ -91,22 +91,22 @@ Vector2f& Vector2f::div(const Vector2f& other)
 	return *this;
 }
 
-Vector2f& operator+(Vector2f& first, const Vector2f& second)
+Vector2f operator+(Vector2f first, const Vector2f& second)
 {
 	return first.add(second);
 }
 
-Vector2f& operator-(Vector2f& first, const Vector2f& second)
+Vector2f operator-(Vector2f first, const Vector2f& second)
 {
 	return first.sub(second);
 }
 
-Vector2f& operator*(Vector2f& first, const Vector2f& second)
+Vector2f operator*(Vector2f first, const Vector2f& second)
 {
 	return first.mul(second);
 }
 
-Vector2f& operator/(Vector2f& first, const Vector2f& second)
+Vector2f operator/(Vector2f first, const Vector2f& second)
 {
 	return first.div(second);
 }
@@ -250,27 +250,27 @@ Vector3f& Vector3f::div(const Vector3f& other)
 	return *this;
 }
 
-Vector2f& Vector3f::xy()
+Vector2f Vector3f::xy()
 {
 	return Vector2f(x, y);
 }
 
-Vector3f& operator+(Vector3f& first, const Vector3f& second)
+Vector3f operator+(Vector3f first, const Vector3f& second)
 {
 	return first.add(second);
 }
 
-Vector3f& operator-(Vector3f& first, const Vector3f& second)
+Vector3f operator-(Vector3f first, const Vector3f& second)
 {
 	return first.sub(second);
 }
 
-Vector3f& operator*(Vector3f& first, const Vector3f& second)
+Vector3f operator*(Vector3f first, const Vector3f& second)
 {
 	return first.mul(second);
 }
 
-Vector3f& operator/(Vector3f& first, const Vector3f& second)
+Vector3f operator/(Vector3f first, const Vector3f& second)
 {
 	return first.div(second);
 }
@@ -426,32 +426,32 @@ Vector4f& Vector4f::div(const Vector4f& other)
 	return *this;
 }
 
-Vector2f& Vector4f::xy()
+Vector2f Vector4f::xy()
 {
 	return Vector2f(x, y);
 }
 
-Vector3f& Vector4f::xyz()
+Vector3f Vector4f::xyz()
 {
 	return Vector3f(x, y, z);
 }
 
-Vector4f& operator+(Vector4f& first, const Vector4f& second)
+Vector4f operator+(Vector4f first, const Vector4f& second)
 {
 	return first.add(second);
 }
 
-Vector4f& operator-(Vector4f& first, const Vector4f& second)
+Vector4f operator-(Vector4f first, const Vector4f& second)
 {
 	return first.sub(second);
 }
 
-Vector4f& operator*(Vector4f& first, const Vector4f& second)
+Vector4f operator*(Vector4f first, const Vector4f& second)
 {
 	return first.mul(second);
 }
 
-Vector4f& operator/(Vector4f& first, const Vector4f& second)
+Vector4f operator/(Vector4f first, const Vector4f& second)
 {
 	return first.div(second);
 }

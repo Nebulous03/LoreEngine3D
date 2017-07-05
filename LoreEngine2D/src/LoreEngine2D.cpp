@@ -1,6 +1,7 @@
 #include "graphics\Graphics.h"
 #include "graphics\Window.h"
 #include "TestGame.h"
+#include "math\Math.h"
 #include <iostream>
 
 int main()

@@ -22,10 +22,10 @@ struct Vector2f {
 	Vector2f& div(const Vector2f& other, Vector2f& dest);
 	Vector2f& div(const Vector2f& other);
 
-	friend Vector2f& operator+(Vector2f& first, const Vector2f& second);
-	friend Vector2f& operator-(Vector2f& first, const Vector2f& second);
-	friend Vector2f& operator*(Vector2f& first, const Vector2f& second);
-	friend Vector2f& operator/(Vector2f& first, const Vector2f& second);
+	friend Vector2f operator+(Vector2f first, const Vector2f& second);
+	friend Vector2f operator-(Vector2f first, const Vector2f& second);
+	friend Vector2f operator*(Vector2f first, const Vector2f& second);
+	friend Vector2f operator/(Vector2f first, const Vector2f& second);
 
 	Vector2f& operator+=(const Vector2f& other);
 	Vector2f& operator-=(const Vector2f& other);
@@ -60,12 +60,12 @@ struct Vector3f {
 	Vector3f& div(const Vector3f& other, Vector3f& dest);
 	Vector3f& div(const Vector3f& other);
 
-	Vector2f& xy();
+	Vector2f xy();
 
-	friend Vector3f& operator+(Vector3f& first, const Vector3f& second);
-	friend Vector3f& operator-(Vector3f& first, const Vector3f& second);
-	friend Vector3f& operator*(Vector3f& first, const Vector3f& second);
-	friend Vector3f& operator/(Vector3f& first, const Vector3f& second);
+	friend Vector3f operator+(Vector3f first, const Vector3f& second);
+	friend Vector3f operator-(Vector3f first, const Vector3f& second);
+	friend Vector3f operator*(Vector3f first, const Vector3f& second);
+	friend Vector3f operator/(Vector3f first, const Vector3f& second);
 
 	Vector3f& operator+=(const Vector3f& other);
 	Vector3f& operator-=(const Vector3f& other);
@@ -101,13 +101,13 @@ struct Vector4f {
 	Vector4f& div(const Vector4f& other, Vector4f& dest);
 	Vector4f& div(const Vector4f& other);
 
-	Vector2f& xy();
-	Vector3f& xyz();
+	Vector2f xy();
+	Vector3f xyz();
 
-	friend Vector4f& operator+(Vector4f& first, const Vector4f& second);
-	friend Vector4f& operator-(Vector4f& first, const Vector4f& second);
-	friend Vector4f& operator*(Vector4f& first, const Vector4f& second);
-	friend Vector4f& operator/(Vector4f& first, const Vector4f& second);
+	friend Vector4f operator+(Vector4f first, const Vector4f& second);
+	friend Vector4f operator-(Vector4f first, const Vector4f& second);
+	friend Vector4f operator*(Vector4f first, const Vector4f& second);
+	friend Vector4f operator/(Vector4f first, const Vector4f& second);
 
 	Vector4f& operator+=(const Vector4f& other);
 	Vector4f& operator-=(const Vector4f& other);
