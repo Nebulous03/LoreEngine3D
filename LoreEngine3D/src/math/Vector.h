@@ -7,6 +7,8 @@ struct Vector2f {
 	float x = 0;
 	float y = 0;
 
+	Vector2f() = default;
+	Vector2f(const float& fill);
 	Vector2f(const float& x, const float& y);
 
 	Vector2f& add(const float otherX, const float otherY);
@@ -45,7 +47,9 @@ struct Vector3f {
 	float y = 0;
 	float z = 0;
 
+	Vector3f() = default;
 	Vector3f(const float& x, const float& y, const float& z);
+	Vector3f(const float& fill);
 
 	Vector3f& add(const float otherX, const float otherY, const float otherZ);
 	Vector3f& add(const Vector3f& other, Vector3f& dest);
@@ -86,7 +90,9 @@ struct Vector4f {
 	float z = 0;
 	float w = 0;
 
+	Vector4f() = default;
 	Vector4f(const float& x, const float& y, const float& z, const float& w);
+	Vector4f(const float& fill);
 
 	Vector4f& add(const float otherX, const float otherY, const float otherZ, const float otherW);
 	Vector4f& add(const Vector4f& other, Vector4f& dest);

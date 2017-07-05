@@ -7,6 +7,9 @@
 Vector2f::Vector2f(const float& x, const float& y) :
 	x(x), y(y) {}
 
+Vector2f::Vector2f(const float& fill) :
+	x(fill), y(fill) {}
+
 Vector2f& Vector2f::add(const float otherX, const float otherY)
 {
 	x = x + otherX;
@@ -153,6 +156,9 @@ std::ostream& operator<<(std::ostream& stream, const Vector2f& vector2f)
 
 Vector3f::Vector3f(const float& x, const float& y, const float& z) :
 	x(x), y(y), z(z) {}
+
+Vector3f::Vector3f(const float& fill) :
+	x(fill), y(fill), z(fill) {}
 
 Vector3f& Vector3f::add(const float otherX, const float otherY, const float otherZ)
 {
@@ -317,6 +323,9 @@ std::ostream& operator<<(std::ostream& stream, const Vector3f& vector3f)
 
 Vector4f::Vector4f(const float& x, const float& y, const float& z, const float& w) :
 	x(x), y(y), z(z), w(w) {}
+
+Vector4f::Vector4f(const float& fill) :
+	x(fill), y(fill), z(fill), w(fill) {}
 
 Vector4f& Vector4f::add(const float otherX, const float otherY, const float otherZ, const float otherW)
 {

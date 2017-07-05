@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoreEngine2D", "LoreEngine2D\LoreEngine2D.vcxproj", "{71A9F833-1D3A-4BA8-8BDA-BBEB1B055BB6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoreEngine3D", "LoreEngine3D\LoreEngine3D.vcxproj", "{71A9F833-1D3A-4BA8-8BDA-BBEB1B055BB6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{82F6A82E-4AB3-48F7-8EC8-1838B1FCF0BC}"
 EndProject

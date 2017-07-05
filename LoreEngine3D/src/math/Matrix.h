@@ -2,13 +2,17 @@
 
 #include "Vector.h"
 
-#define MATRIX4F_SIZE 16
+#define MATRIX4F_SIZE 4 * 4
 
 struct Matrix4f {
 
-	float elements[MATRIX4F_SIZE];
+	union
+	{
+		float elements[MATRIX4F_SIZE];
+		Vector4f columns[4];
+	};
 
-	Matrix4f();
+	Matrix4f() = default;
 	Matrix4f(const float fill);
 
 	Matrix4f& add(const Matrix4f& other);
