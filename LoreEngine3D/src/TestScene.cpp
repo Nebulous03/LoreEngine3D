@@ -24,6 +24,14 @@ TestScene::TestScene()
 		2, 3, 0
 	};
 
+	GLfloat color[] =
+	{
+		1,0,0,1,
+		0,1,0,1,
+		0,0,1,1,
+		1,1,1,1
+	};
+
 #if 0
 	GLfloat vertices[] =
 	{
@@ -46,12 +54,12 @@ TestScene::TestScene()
 #endif
 
 	VertexArray vao;
-	Buffer* vbo = new Buffer(vertices, 4 * 3, 3);
 	IndexBuffer ibo(indices, 6);
 
-	vao.add(vbo, 0);
-
+	vao.add(new Buffer(vertices, 4 * 3, 3), 0);
+	vao.add(new Buffer(color,    4 * 4, 4), 1);
 	vao.bind();
+
 	ibo.bind();
 
 	Matrix4f ortho = Matrix4f::Orthographic(0.0f, 16.0f, 0.0f, 9.0f, -1.0f, 1.0f);
@@ -59,9 +67,9 @@ TestScene::TestScene()
 	Shader shader("res/shaders/default.vs", "res/shaders/default.fs");
 	shader.bind();
 
-	shader.setUniform("projection", ortho);
+	//shader.setUniform("projection", ortho);
 	//shader.setUniform("model", mat4f::Translation(4.0f, 3.0f, 0.0f));
-	shader.setUniform("shader_color", vec4f(1.0f, 1.0f, 1.0f, 1.0f));
+	//shader.setUniform("shader_color", vec4f(1.0f, 1.0f, 1.0f, 1.0f));
 
 }
 
