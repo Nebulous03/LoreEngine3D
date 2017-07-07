@@ -27,14 +27,16 @@ Matrix4f& Matrix4f::sub(const Matrix4f& other)
 
 Matrix4f& Matrix4f::mul(const Matrix4f& other)
 {
+	float data[16];
 	for (int y = 0; y < 4; y++) {
 		for (int x = 0; x < 4; x++) {
 			float sum = 0.0f;
 			for (int i = 0; i < 4; i++)
 				sum += elements[x + i * 4] * other.elements[y + i * 4];
-			elements[x + y * 4] = sum;
+			data[x + y * 4] = sum;
 		}
 	}
+	memcpy(elements, data, 16 * sizeof(float));
 	return *this;
 }
 

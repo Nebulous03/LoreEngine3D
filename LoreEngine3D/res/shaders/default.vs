@@ -7,15 +7,10 @@ uniform mat4 projection = mat4(1.0);
 uniform mat4 view = mat4(1.0);
 uniform mat4 model = mat4(1.0);
 
-out DATA
-{
-	vec4 position;
-	vec4 color;
-}
-data_out;
+out vec4 vertex_color;
 
 void main()
 {
 	gl_Position = projection * view * model * position;
-	data_out.color = color;
+	vertex_color = color;
 }

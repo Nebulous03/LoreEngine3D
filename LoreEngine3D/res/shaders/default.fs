@@ -2,14 +2,9 @@
 
 layout (location = 0) out vec4 color;
 
-in DATA
-{
-	vec4 position;
-	vec4 color;
-}
-data_in;
+in vec4 vertex_color;
 
 void main()
 {
-	color = data_in.color; //vec4(1.0, 1.0, 1.0, 1.0);
+	color = vertex_color; //vec4(1.0, 1.0, 1.0, 1.0);
 }

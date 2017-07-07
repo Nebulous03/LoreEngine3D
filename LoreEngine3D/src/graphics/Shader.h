@@ -1,6 +1,6 @@
 #pragma once
-#include "../../utils/FileUtilites.h"
-#include "../../math/Math.h"
+#include "../utils/FileUtilites.h"
+#include "../math/Math.h"
 #include <GL\glew.h>
 
 #define VERTEX_SHADER	0 
@@ -12,7 +12,9 @@
 class Shader
 {
 private:
+	
 	GLuint _program;
+
 public:
 
 	Shader();

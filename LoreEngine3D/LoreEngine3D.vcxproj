@@ -70,27 +70,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>$(SolutionDir)$(ProjectName)\bin\intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)LoreEngine3D\libs\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)LoreEngine3D\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)LoreEngine3D\libs\x86\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)LoreEngine3D\libs\x86;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(SolutionDir)$(ProjectName)\bin\intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)LoreEngine3D\libs\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)LoreEngine3D\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)LoreEngine3D\libs\x86\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)LoreEngine3D\libs\x86;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)\bin\intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)LoreEngine3D\libs\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)LoreEngine3D\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)LoreEngine3D\libs\x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)LoreEngine3D\libs\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(ProjectName)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)\bin\intermediate\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)LoreEngine3D\libs\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)LoreEngine3D\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)LoreEngine3D\libs\x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)LoreEngine3D\libs\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -123,6 +123,10 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -139,6 +143,10 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -151,9 +159,10 @@
     <ClCompile Include="src\game\Scene.cpp" />
     <ClCompile Include="src\graphics\buffers\Buffers.cpp" />
     <ClCompile Include="src\graphics\Graphics.cpp" />
-    <ClCompile Include="src\entity\Entity.cpp" />
+    <ClCompile Include="src\graphics\Mesh.cpp" />
+    <ClCompile Include="src\graphics\Renderable.cpp" />
     <ClCompile Include="src\graphics\Renderer.cpp" />
-    <ClCompile Include="src\graphics\shaders\Shader.cpp" />
+    <ClCompile Include="src\graphics\Shader.cpp" />
     <ClCompile Include="src\graphics\Window.cpp" />
     <ClCompile Include="src\logic\Input.cpp" />
     <ClCompile Include="src\logic\TickHandler.cpp" />
@@ -170,9 +179,10 @@
     <ClInclude Include="src\game\Scene.h" />
     <ClInclude Include="src\graphics\buffers\Buffers.h" />
     <ClInclude Include="src\graphics\Graphics.h" />
-    <ClInclude Include="src\entity\Entity.h" />
+    <ClInclude Include="src\graphics\Mesh.h" />
+    <ClInclude Include="src\graphics\Renderable.h" />
     <ClInclude Include="src\graphics\Renderer.h" />
-    <ClInclude Include="src\graphics\shaders\Shader.h" />
+    <ClInclude Include="src\graphics\Shader.h" />
     <ClInclude Include="src\graphics\Window.h" />
     <ClInclude Include="src\logic\Input.h" />
     <ClInclude Include="src\logic\TickHandler.h" />
@@ -185,6 +195,7 @@
     <ClInclude Include="src\TestGame.h" />
     <ClInclude Include="src\utils\FileUtilites.h" />
     <ClInclude Include="src\utils\LoreInfo.h" />
+    <ClInclude Include="src\utils\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\default.fs" />

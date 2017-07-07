@@ -5,44 +5,40 @@
 class Buffer
 {
 private:
-	GLuint _bufferID;
-	GLuint _componentCount;
+
+	GLuint	_bufferID;
+	GLuint	_vectorSize;
+	GLuint	_size;
+	bool	_isIndex;
+
 public:
 
-	Buffer(GLfloat* data, GLsizei size, GLuint componentCount);
+	Buffer(GLfloat* data, GLsizei size, GLuint _vectorSize);
+	Buffer(GLushort* data, GLsizei size);
+	~Buffer();
 
 	void bind() const;
 	void unbind() const;
 
-	inline GLuint getComponentCount() const;
+	const GLuint getVectorSize() const;
+	const GLuint getSize() const;
 
-};
-
-class IndexBuffer
-{
-private:
-	GLuint _bufferID;
-	GLuint _count;
-public:
-
-	IndexBuffer(GLushort* data, GLsizei count);
-
-	void bind() const;
-	void unbind() const;
-
-	inline GLuint getCount() const;
-
+	bool isIndex() const;
 };
 
 class VertexArray
 {
 private:
+
 	GLuint _arrayID;
 	std::vector<Buffer*> _buffers;
+
 public:
+
 	VertexArray();
 	~VertexArray();
-	void add(Buffer* buffer, GLuint index);
+
+	void attach(Buffer* buffer, GLuint location);
 
 	void bind();
 	void unbind();
