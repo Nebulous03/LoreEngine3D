@@ -7,6 +7,7 @@
 #include "..\graphics\buffers\Buffers.h"
 #include "..\graphics\Mesh.h"
 #include "..\utils\OBJLoader.h"
+#include "..\graphics\Camera.h"
 
 TickHandler::TickHandler(Game& game, double UPS)
 {
@@ -81,11 +82,12 @@ void TickHandler::run()
 		0.982f,  0.099f,  0.879f
 	};
 
-	BasicRenderer renderer;
+	Camera camera(vec3f(0,0,0), CAMERA_PERSPECTIVE, 640.0f, 480.0f);
+	BasicRenderer renderer(camera);
 	Shader color("res/shaders/default.vs", "res/shaders/default.fs");
 	color.bind();
 
-	Matrix4f s1Trans = mat4f::Translation(0.0f, 0.0f, -3.0f) * mat4f::Rotation(vec3f(1,1,0), -45.0f);
+	Matrix4f s1Trans = mat4f::Translation(0.0f, 0.0f, -3.0f); // *mat4f::Rotation(vec3f(1, 1, 0), -45.0f);
 	Matrix4f s2Trans = mat4f::Translation(0, 0, 0);
 
 	/*
@@ -106,8 +108,10 @@ void TickHandler::run()
 	Mesh cubeMesh = loadMesh("res/meshs/cube.obj", colors, 36);
 	Renderable cube(cubeMesh, color, s1Trans); //mat4f::Translation(vec3f(0)));
 
-	/* END TEST CODE */
 
+	double mouseDX, mouseDY;
+
+	/* END TEST CODE */
 
 
 	while (_game->getStatus())
@@ -126,44 +130,59 @@ void TickHandler::run()
 
 		/* TEST CODE */
 
+		
+		//if(mouse)
+
+
+		mouseDX = mouseDY = 0;
+
+		//Keys:
+
 		if (Input::isKeyPressed(GLFW_KEY_UP))
 		{
-			*cube.getTranslation() *= mat4f::Translation(vec3f(0, 0.01f,0));
+			//*cube.getTranslation() *= mat4f::Translation(vec3f(0, 0.01f,0));
+			camera.move(vec3f(0, 1, 0), 0.05f);
+			//std::cout << camera.getPosition() << std::endl;
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_DOWN))
 		{
-			*cube.getTranslation() *= mat4f::Translation(vec3f(0, -0.01f, 0));
+			//*cube.getTranslation() *= mat4f::Translation(vec3f(0, -0.01f, 0));
+			camera.move(vec3f(0, -1, 0), 0.05f);
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_LEFT))
 		{
-			*cube.getTranslation() *= mat4f::Translation(vec3f(0.01f, 0, 0));
+			//*cube.getTranslation() *= mat4f::Translation(vec3f(0.01f, 0, 0));
+			camera.move(vec3f(-1, 0, 0), 0.05f);
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_RIGHT))
 		{
-			*cube.getTranslation() *= mat4f::Translation(vec3f(-0.01f, 0, 0));
+			//*cube.getTranslation() *= mat4f::Translation(vec3f(-0.01f, 0, 0));
+			camera.move(vec3f(1, 0, 0), 0.05f);
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_G))
 		{
-			*cube.getTranslation() *= mat4f::Translation(vec3f(0, 0, 0.01f));
+			//*cube.getTranslation() *= mat4f::Translation(vec3f(0, 0, 0.01f));
+			camera.move(vec3f(0, 0, -1), 0.05f);
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_H))
 		{
-			*cube.getTranslation() *= mat4f::Translation(vec3f(0, 0, -0.01f));
+			//*cube.getTranslation() *= mat4f::Translation(vec3f(0, 0, -0.01f));
+			camera.move(vec3f(0, 0, 1), 0.05f);
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_Q))
 		{
-			*cube.getTranslation() *= mat4f::Rotation(vec3f(1.0f, 1.0f, 0.0f), -0.2f);
+			//*cube.getTranslation() *= mat4f::Rotation(vec3f(1.0f, 1.0f, 0.0f), -0.2f);
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_E))
 		{
-			*cube.getTranslation() *= mat4f::Rotation(vec3f(1.0f, 1.0f, 0.0f), 0.2f);
+			//*cube.getTranslation() *= mat4f::Rotation(vec3f(1.0f, 1.0f, 0.0f), 0.2f);
 		}
 
 		//renderer.push(square);

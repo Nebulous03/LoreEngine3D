@@ -5,6 +5,10 @@
 
 /* BASIC RENDERER */
 
+RendererBase::RendererBase(Camera& camera) : _camera(camera) {}
+
+BasicRenderer::BasicRenderer(Camera& camera) : RendererBase(camera) {}
+
 void BasicRenderer::push(Renderable& renderable)
 {
 	_renderables.push_back(&renderable);
@@ -19,7 +23,8 @@ void BasicRenderer::flush()
 		renderable.getMesh()->getIBO()->bind();
 
 		renderable.getShader()->setUniform("model", *(renderable.getTranslation()));
-		renderable.getShader()->setUniform("projection", mat4f::Perspective(90.0f, 640.0f/480.0f, 0.001f, 1000.0f));
+		renderable.getShader()->setUniform("projection", _camera.getProjection());
+		renderable.getShader()->setUniform("view", _camera.getView());
 
 		glDrawElements(GL_TRIANGLES, renderable.getMesh()->getIBO()->getSize(), GL_UNSIGNED_SHORT, nullptr);
 
@@ -32,7 +37,7 @@ void BasicRenderer::flush()
 
 /* BATCH RENDERER */
 
-BatchRenderer::BatchRenderer(Mesh& batchMesh) : _mesh(batchMesh)
+BatchRenderer::BatchRenderer(Camera& camera, Mesh& batchMesh) : RendererBase(camera), _mesh(batchMesh)
 {
 	constructBuffer(batchMesh);
 }

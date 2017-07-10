@@ -158,6 +158,7 @@
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\Scene.cpp" />
     <ClCompile Include="src\graphics\buffers\Buffers.cpp" />
+    <ClCompile Include="src\graphics\Camera.cpp" />
     <ClCompile Include="src\graphics\Graphics.cpp" />
     <ClCompile Include="src\graphics\Mesh.cpp" />
     <ClCompile Include="src\graphics\Renderable.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="src\game\Game.h" />
     <ClInclude Include="src\game\Scene.h" />
     <ClInclude Include="src\graphics\buffers\Buffers.h" />
+    <ClInclude Include="src\graphics\Camera.h" />
     <ClInclude Include="src\graphics\Graphics.h" />
     <ClInclude Include="src\graphics\Mesh.h" />
     <ClInclude Include="src\graphics\Renderable.h" />
