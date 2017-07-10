@@ -1,6 +1,16 @@
 #pragma once
 #include "buffers\Buffers.h"
 
+struct Index
+{
+	short vi;
+	short ti;
+	short ni;
+
+	Index();
+	Index(short vertex, short texCoord, short normal);
+};
+
 class Mesh
 {
 protected:

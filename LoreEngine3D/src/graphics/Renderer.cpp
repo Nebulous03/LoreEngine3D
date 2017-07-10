@@ -19,6 +19,7 @@ void BasicRenderer::flush()
 		renderable.getMesh()->getIBO()->bind();
 
 		renderable.getShader()->setUniform("model", *(renderable.getTranslation()));
+		renderable.getShader()->setUniform("projection", mat4f::Perspective(90.0f, 640.0f/480.0f, 0.001f, 1000.0f));
 
 		glDrawElements(GL_TRIANGLES, renderable.getMesh()->getIBO()->getSize(), GL_UNSIGNED_SHORT, nullptr);
 

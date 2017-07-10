@@ -1,6 +1,11 @@
 #include "Mesh.h"
 #include <iostream>
 
+Index::Index(short vertex, short texCoord, short normal) :
+	vi(vertex), ti(texCoord), ni(normal) {}
+
+Index::Index() : vi(0), ti(0), ni(0) {}
+
 Mesh::Mesh	// TODO: Allow texCoords w/o setting colors
 (
 	GLfloat* vertices, GLsizei vertexCount,

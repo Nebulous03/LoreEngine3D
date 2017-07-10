@@ -1,13 +1,12 @@
 #include "TestScene.h"
-
-
+#include "utils\OBJLoader.h"
 #include "logic\Input.h"
 #include <iostream>
 #include <GL\glew.h>
 
 TestScene::TestScene()
 {
-
+	//Mesh m = loadMesh("res/mesh/cube.mesh");
 }
 
 void TestScene::onLoad()

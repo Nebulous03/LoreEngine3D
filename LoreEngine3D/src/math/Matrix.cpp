@@ -32,7 +32,7 @@ Matrix4f& Matrix4f::mul(const Matrix4f& other)
 		for (int x = 0; x < 4; x++) {
 			float sum = 0.0f;
 			for (int i = 0; i < 4; i++)
-				sum += elements[x + i * 4] * other.elements[y + i * 4];
+				sum += elements[x + i * 4] * other.elements[i + y * 4];
 			data[x + y * 4] = sum;
 		}
 	}

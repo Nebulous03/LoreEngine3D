@@ -173,6 +173,7 @@
     <ClCompile Include="src\TestScene.cpp" />
     <ClCompile Include="src\TestGame.cpp" />
     <ClCompile Include="src\utils\FileUtilities.cpp" />
+    <ClCompile Include="src\utils\OBJLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\Game.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="src\TestGame.h" />
     <ClInclude Include="src\utils\FileUtilites.h" />
     <ClInclude Include="src\utils\LoreInfo.h" />
+    <ClInclude Include="src\utils\OBJLoader.h" />
     <ClInclude Include="src\utils\Timer.h" />
   </ItemGroup>
   <ItemGroup>
