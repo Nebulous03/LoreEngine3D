@@ -36,6 +36,10 @@ void Window::createWindow()
 	glClearColor(0.0f, 0.04f, 0.06f, 1.0f);	// Default Color
 	setVisable(GL_TRUE);
 
+	glEnable(GL_DEPTH_TEST);
+	glCullFace(GL_FRONT);
+	glfwSwapInterval(0);
+
 }
 
 void Window::build()

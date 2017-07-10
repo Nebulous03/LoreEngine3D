@@ -1,6 +1,6 @@
 #include "OBJLoader.h"
 
-Mesh loadMesh(const char* path, GLfloat* colors, GLsizei colorCount)	//TODO: remove color!
+Mesh loadMesh(const char* path)
 {
 	std::vector<Vector3f> vertices;
 	std::vector<Vector2f> texCoords;
@@ -163,7 +163,7 @@ Mesh loadMesh(const char* path, GLfloat* colors, GLsizei colorCount)	//TODO: rem
 	}
 	
 
-	return Mesh(verticesArray, vertexSize, indicesArray, indexSize, colors, colorCount);
+	return Mesh(verticesArray, vertexSize, indicesArray, indexSize);
 }
 
 std::vector<std::string> split(std::string string, char delim)

@@ -4,5 +4,5 @@
 #include "../graphics/Mesh.h"
 #include <vector>
 
-Mesh loadMesh(const char* path, GLfloat* colors, GLsizei colorCount);
+Mesh loadMesh(const char* path);
 std::vector<std::string> split(std::string string, char delim);
