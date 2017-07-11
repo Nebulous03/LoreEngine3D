@@ -1,18 +1,21 @@
-#LoreEngine3D
+# LoreEngine3D
 3D Game Development Engine
+Created by Ben Ratcliff (NebulousDev)
 
 ## 2D & 3D Graphics
-LoreEngine, although primarily 3D, is designed to support all aspects of 2D and 3D game development.
+LoreEngine, *although primarily 3D*, is designed to support all aspects of 2D and 3D game development.
 
 ## Source Files
 
 Clone through GitHub:
-	git clone https://github.com/NebulousDev/LoreEngine3D.git;
+
+    git clone https://github.com/NebulousDev/LoreEngine3D.git;
 	
 ## Versioning
 
-Releases always follows:
-	[Release].[Major].[Minor].<Patch>
+Releases always follow:
+
+    [Release].[Major].[Minor].<Patch>
 
 ## Copyright
 
