@@ -46,6 +46,6 @@ public:
 
 	int getStatus();
 
-	~Game();
+	virtual ~Game();
 
 };

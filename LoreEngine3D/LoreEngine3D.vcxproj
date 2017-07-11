@@ -163,6 +163,7 @@
     <ClCompile Include="src\graphics\Mesh.cpp" />
     <ClCompile Include="src\graphics\Renderable.cpp" />
     <ClCompile Include="src\graphics\Renderer.cpp" />
+    <ClCompile Include="src\graphics\SceneLayer.cpp" />
     <ClCompile Include="src\graphics\Shader.cpp" />
     <ClCompile Include="src\graphics\Window.cpp" />
     <ClCompile Include="src\logic\Input.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="src\graphics\Mesh.h" />
     <ClInclude Include="src\graphics\Renderable.h" />
     <ClInclude Include="src\graphics\Renderer.h" />
+    <ClInclude Include="src\graphics\SceneLayer.h" />
     <ClInclude Include="src\graphics\Shader.h" />
     <ClInclude Include="src\graphics\Window.h" />
     <ClInclude Include="src\logic\Input.h" />

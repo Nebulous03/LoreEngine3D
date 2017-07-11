@@ -8,6 +8,7 @@
 #include "..\graphics\Mesh.h"
 #include "..\utils\OBJLoader.h"
 #include "..\graphics\Camera.h"
+#include "..\graphics\SceneLayer.h"
 
 TickHandler::TickHandler(Game& game, double UPS)
 {
@@ -22,13 +23,16 @@ void TickHandler::run()
 
 	/* TEST CODE */
 
-	Camera camera(vec3f(0,0,0), CAMERA_PERSPECTIVE, 640.0f, 480.0f);
-	BasicRenderer renderer(camera);
-	Shader color("res/shaders/default.vs", "res/shaders/default.fs");
-	color.bind();
+	Camera* camera = new Camera(vec3f(0,0,0), CAMERA_PERSPECTIVE, 640.0f, 480.0f);
+	Shader* color = new Shader("res/shaders/default.vs", "res/shaders/default.fs");
+	BasicRenderer* renderer = new BasicRenderer(color, camera);
+
+	SceneLayer layer(renderer);
 
 	Mesh cubeMesh = loadMesh("res/meshs/cube.obj");
-	Renderable cube(cubeMesh, color, mat4f::Translation(0.0f, 0.0f, -3.0f));
+	Renderable* cube = new Renderable(&cubeMesh, &mat4f::Translation(0.0f, 0.0f, -3.0f));
+
+	layer.add(cube);
 
 	/* END TEST CODE */
 
@@ -53,32 +57,32 @@ void TickHandler::run()
 
 		if (Input::isKeyPressed(GLFW_KEY_UP))
 		{
-			camera.move(vec3f(0, 1, 0), 0.05f);
+			camera->move(vec3f(0, 1, 0), 0.05f);
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_DOWN))
 		{
-			camera.move(vec3f(0, -1, 0), 0.05f);
+			camera->move(vec3f(0, -1, 0), 0.05f);
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_LEFT))
 		{
-			camera.move(vec3f(-1, 0, 0), 0.05f);
+			camera->move(vec3f(-1, 0, 0), 0.05f);
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_RIGHT))
 		{
-			camera.move(vec3f(1, 0, 0), 0.05f);
+			camera->move(vec3f(1, 0, 0), 0.05f);
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_G))
 		{
-			camera.move(vec3f(0, 0, -1), 0.05f);
+			camera->move(vec3f(0, 0, -1), 0.05f);
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_H))
 		{
-			camera.move(vec3f(0, 0, 1), 0.05f);
+			camera->move(vec3f(0, 0, 1), 0.05f);
 		}
 
 		if (Input::isKeyPressed(GLFW_KEY_Q))
@@ -91,8 +95,8 @@ void TickHandler::run()
 	
 		}
 
-		renderer.push(cube);
-		renderer.flush();
+		renderer->push(cube);
+		renderer->flush();
 
 		/* END TEST CODE */
 

@@ -7,16 +7,14 @@ class Renderable
 private:
 
 	Mesh* _mesh;
-	Shader* _shader;
-
-	Matrix4f* _translation;	// Move?
+	Matrix4f* _translation;
 
 public:
 
-	Renderable(Mesh& mesh, Shader& shader, Matrix4f& translation = Matrix4f::Translation(0,0,0));
+	Renderable(Mesh* mesh, Matrix4f* translation = &Matrix4f::Translation(0,0,0));
+	virtual ~Renderable();
 	
 	Mesh* getMesh() const;
-	Shader* getShader() const;
 	Matrix4f* getTranslation() const;
 
 };

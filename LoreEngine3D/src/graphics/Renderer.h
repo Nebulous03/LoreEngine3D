@@ -15,30 +15,32 @@ struct Vertex
 	Vector3f color;
 };
 
-class RendererBase
+class BaseRenderer
 {
 protected:
-	Camera& _camera;
+	Camera* _camera;
+	Shader* _shader;
 public:
-	RendererBase(Camera& camera);
-	virtual void push(Renderable& renderable) = 0;
+	BaseRenderer(Shader* shader, Camera* camera);
+	virtual ~BaseRenderer();
+	virtual void push(Renderable* renderable) = 0;
 	virtual void flush() = 0;
 };
 
-class BasicRenderer : public RendererBase
+class BasicRenderer : public BaseRenderer
 {
 protected:
 
 	std::deque<Renderable*> _renderables;
 
 public:
-	BasicRenderer(Camera& camera);
-	void push(Renderable& renderable) override;
+	BasicRenderer(Shader* shader, Camera* camera);
+	void push(Renderable* renderable) override;
 	void flush() override;
 
 };
 
-class BatchRenderer : public RendererBase
+class BatchRenderer : public BaseRenderer
 {
 protected:
 
@@ -50,14 +52,14 @@ protected:
 
 public:
 
-	BatchRenderer(Camera& camera, Mesh& batchMesh);
+	BatchRenderer(Shader* shader, Camera* camera, Mesh* batchMesh);
 	~BatchRenderer();
 
 	void constructBuffer(Mesh& batchMesh);
 
 	void add(Renderable& renderable);
 
-	void push(Renderable& renderable) override;
+	void push(Renderable* renderable) override;
 	void flush() override;
 
 };

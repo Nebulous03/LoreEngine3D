@@ -5,41 +5,49 @@
 
 /* BASIC RENDERER */
 
-RendererBase::RendererBase(Camera& camera) : _camera(camera) {}
+BaseRenderer::BaseRenderer(Shader* shader, Camera* camera) : _shader(shader), _camera(camera) {}
 
-BasicRenderer::BasicRenderer(Camera& camera) : RendererBase(camera) {}
+BasicRenderer::BasicRenderer(Shader* shader, Camera* camera) : BaseRenderer(shader, camera) {}
 
-void BasicRenderer::push(Renderable& renderable)
+BaseRenderer::~BaseRenderer()
 {
-	_renderables.push_back(&renderable);
+	delete _shader;
+	delete _camera;
+}
+
+void BasicRenderer::push(Renderable* renderable)
+{
+	_renderables.push_back(renderable);
 }
 
 void BasicRenderer::flush()
 {
+	_shader->bind();
 	while (!_renderables.empty())
 	{
-		const Renderable& renderable = *_renderables.front();
-		renderable.getMesh()->getVAO()->bind();
-		renderable.getMesh()->getIBO()->bind();
+		const Renderable* renderable = _renderables.front();
+		renderable->getMesh()->getVAO()->bind();
+		renderable->getMesh()->getIBO()->bind();
 
-		renderable.getShader()->setUniform("model", *(renderable.getTranslation()));
-		renderable.getShader()->setUniform("projection", _camera.getProjection());
-		renderable.getShader()->setUniform("view", _camera.getView());
+		_shader->setUniform("model", *(renderable->getTranslation()));
+		_shader->setUniform("projection", _camera->getProjection());
+		_shader->setUniform("view", _camera->getView());
 
-		glDrawElements(GL_TRIANGLES, renderable.getMesh()->getIBO()->getSize(), GL_UNSIGNED_SHORT, nullptr);
+		glDrawElements(GL_TRIANGLES, renderable->getMesh()->getIBO()->getSize(), GL_UNSIGNED_SHORT, nullptr);
 
-		renderable.getMesh()->getIBO()->unbind();
-		renderable.getMesh()->getVAO()->unbind();
+		renderable->getMesh()->getIBO()->unbind();
+		renderable->getMesh()->getVAO()->unbind();
 
 		_renderables.pop_front();
 	}
+	_shader->unbind();
 }
 
 /* BATCH RENDERER */
 
-BatchRenderer::BatchRenderer(Camera& camera, Mesh& batchMesh) : RendererBase(camera), _mesh(batchMesh)
+BatchRenderer::BatchRenderer(Shader* shader, Camera* camera, Mesh* batchMesh) : BaseRenderer(shader, camera), _mesh(*batchMesh)
 {
-	constructBuffer(batchMesh);
+	constructBuffer(*batchMesh);
 }
 
 BatchRenderer::~BatchRenderer()
@@ -48,7 +56,7 @@ BatchRenderer::~BatchRenderer()
 	glDeleteBuffers(1, &_vbo);
 }
 
-void BatchRenderer::push(Renderable& renderable)
+void BatchRenderer::push(Renderable* renderable)
 {
 	Vertex* buffer = (Vertex*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 }
