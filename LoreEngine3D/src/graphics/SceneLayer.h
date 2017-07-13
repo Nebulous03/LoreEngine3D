@@ -8,13 +8,16 @@ class SceneLayer
 {
 protected:
 
-	BaseRenderer* _renderer;
+	BaseRenderer& _renderer;
 	std::vector<Renderable*> _renderables;
 
 public:
 
-	SceneLayer(BaseRenderer* renderer);
+	SceneLayer(BaseRenderer& renderer);
 	virtual ~SceneLayer();
+
 	SceneLayer& add(Renderable* renderable);
+
+	void render();
 
 };

@@ -1,6 +1,6 @@
 #include "OBJLoader.h"
 
-Mesh loadMesh(const char* path)
+Mesh* loadMesh(const char* path)
 {
 	std::vector<Vector3f> vertices;
 	std::vector<Vector2f> texCoords;
@@ -147,7 +147,10 @@ Mesh loadMesh(const char* path)
 		indicesArray[i] = indices[i].vi;
 	}
 
-	
+	std::cout << " Mesh [" << path << "] loaded successfully." << std::endl;
+
+	/*
+
 	//VERTEX
 	for (unsigned int i = 0; i < vertexSize; i++)
 	{
@@ -162,8 +165,9 @@ Mesh loadMesh(const char* path)
 		if (i % 3 == 2) std::cout << std::endl;
 	}
 	
+	*/
 
-	return Mesh(verticesArray, vertexSize, indicesArray, indexSize);
+	return new Mesh(verticesArray, vertexSize, indicesArray, indexSize);
 }
 
 std::vector<std::string> split(std::string string, char delim)

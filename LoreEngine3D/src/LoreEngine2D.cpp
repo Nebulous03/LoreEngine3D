@@ -17,7 +17,7 @@ int main()
 
 	testGame.getGraphics()->setGLClearColor(0.0f, 0.04f, 0.06f);
 	//testGame.getGraphics()->setDisplay(WINDOWED_FULLSCREEN, 640, 480);
-	testGame.getGraphics()->setvSync(true);
+	testGame.getGraphics()->setvSync(false);
 
 	testGame.start();													// Start Game
 

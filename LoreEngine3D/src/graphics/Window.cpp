@@ -37,8 +37,7 @@ void Window::createWindow()
 	setVisable(GL_TRUE);
 
 	glEnable(GL_DEPTH_TEST);
-	glCullFace(GL_FRONT);
-	glfwSwapInterval(0);
+	glCullFace(GL_BACK);
 
 }
 

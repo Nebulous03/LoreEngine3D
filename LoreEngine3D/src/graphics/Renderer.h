@@ -18,11 +18,13 @@ struct Vertex
 class BaseRenderer
 {
 protected:
-	Camera* _camera;
-	Shader* _shader;
+	Camera& _camera;
+	Shader& _shader;
 public:
-	BaseRenderer(Shader* shader, Camera* camera);
+	BaseRenderer(Shader& shader, Camera& camera);
 	virtual ~BaseRenderer();
+	virtual void begin();
+	virtual void end();
 	virtual void push(Renderable* renderable) = 0;
 	virtual void flush() = 0;
 };
@@ -34,7 +36,7 @@ protected:
 	std::deque<Renderable*> _renderables;
 
 public:
-	BasicRenderer(Shader* shader, Camera* camera);
+	BasicRenderer(Shader& shader, Camera& camera);
 	void push(Renderable* renderable) override;
 	void flush() override;
 
@@ -52,7 +54,7 @@ protected:
 
 public:
 
-	BatchRenderer(Shader* shader, Camera* camera, Mesh* batchMesh);
+	BatchRenderer(Shader& shader, Camera& camera, Mesh* batchMesh);
 	~BatchRenderer();
 
 	void constructBuffer(Mesh& batchMesh);

@@ -5,15 +5,15 @@
 
 /* BASIC RENDERER */
 
-BaseRenderer::BaseRenderer(Shader* shader, Camera* camera) : _shader(shader), _camera(camera) {}
+BaseRenderer::BaseRenderer(Shader& shader, Camera& camera) : _shader(shader), _camera(camera) {}
 
-BasicRenderer::BasicRenderer(Shader* shader, Camera* camera) : BaseRenderer(shader, camera) {}
+BasicRenderer::BasicRenderer(Shader& shader, Camera& camera) : BaseRenderer(shader, camera) {}
 
-BaseRenderer::~BaseRenderer()
-{
-	delete _shader;
-	delete _camera;
-}
+BaseRenderer::~BaseRenderer() {}
+
+void BaseRenderer::begin() {}
+
+void BaseRenderer::end() {}
 
 void BasicRenderer::push(Renderable* renderable)
 {
@@ -22,30 +22,30 @@ void BasicRenderer::push(Renderable* renderable)
 
 void BasicRenderer::flush()
 {
-	_shader->bind();
+	_shader.bind();
 	while (!_renderables.empty())
 	{
-		const Renderable* renderable = _renderables.front();
-		renderable->getMesh()->getVAO()->bind();
-		renderable->getMesh()->getIBO()->bind();
+		Renderable* renderable = _renderables.front();
+		renderable->getMesh().getVAO()->bind();
+		renderable->getMesh().getIBO()->bind();
 
-		_shader->setUniform("model", *(renderable->getTranslation()));
-		_shader->setUniform("projection", _camera->getProjection());
-		_shader->setUniform("view", _camera->getView());
+		_shader.setUniform("model", renderable->getTranslation());
+		_shader.setUniform("projection", _camera.getProjection());
+		_shader.setUniform("view", _camera.getView());
 
-		glDrawElements(GL_TRIANGLES, renderable->getMesh()->getIBO()->getSize(), GL_UNSIGNED_SHORT, nullptr);
+		glDrawElements(GL_TRIANGLES, renderable->getMesh().getIBO()->getSize(), GL_UNSIGNED_SHORT, nullptr);
 
-		renderable->getMesh()->getIBO()->unbind();
-		renderable->getMesh()->getVAO()->unbind();
+		renderable->getMesh().getIBO()->unbind();
+		renderable->getMesh().getVAO()->unbind();
 
 		_renderables.pop_front();
 	}
-	_shader->unbind();
+	_shader.unbind();
 }
 
 /* BATCH RENDERER */
 
-BatchRenderer::BatchRenderer(Shader* shader, Camera* camera, Mesh* batchMesh) : BaseRenderer(shader, camera), _mesh(*batchMesh)
+BatchRenderer::BatchRenderer(Shader& shader, Camera& camera, Mesh* batchMesh) : BaseRenderer(shader, camera), _mesh(*batchMesh)
 {
 	constructBuffer(*batchMesh);
 }

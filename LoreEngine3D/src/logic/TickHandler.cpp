@@ -1,108 +1,64 @@
 #include "TickHandler.h"
+#include "../utils/Timer.h"
 #include <iostream>
 
-#include "..\graphics\Renderer.h"
-#include "..\graphics\Renderable.h"
-#include "..\graphics\Shader.h"
-#include "..\graphics\buffers\Buffers.h"
-#include "..\graphics\Mesh.h"
-#include "..\utils\OBJLoader.h"
-#include "..\graphics\Camera.h"
-#include "..\graphics\SceneLayer.h"
-
-TickHandler::TickHandler(Game& game, double UPS)
-{
-	_game = &game;
-	_UPS = UPS;
-}
+TickHandler::TickHandler(Game& game) : _game(&game) {}
 
 void TickHandler::run()
 {
 	_game->initialize();
 	_game->onStart();
 
-	/* TEST CODE */
-
-	Camera* camera = new Camera(vec3f(0,0,0), CAMERA_PERSPECTIVE, 640.0f, 480.0f);
-	Shader* color = new Shader("res/shaders/default.vs", "res/shaders/default.fs");
-	BasicRenderer* renderer = new BasicRenderer(color, camera);
-
-	SceneLayer layer(renderer);
-
-	Mesh cubeMesh = loadMesh("res/meshs/cube.obj");
-	Renderable* cube = new Renderable(&cubeMesh, &mat4f::Translation(0.0f, 0.0f, -3.0f));
-
-	layer.add(cube);
-
-	/* END TEST CODE */
-
+	Timer msTimer;
+	Timer frameTimer;
+	float time = 0;
+	unsigned int frames = 0;
 
 	while (_game->getStatus())
 	{
-		if (glfwWindowShouldClose(_game->getActiveWindow()->getGLWindow())){
+		if (glfwWindowShouldClose(_game->getActiveWindow()->getGLWindow())) {
 			_game->stop(); break;
 		}
 
-		// Update
-		_game->onUpdate();
+		update();
 
-		// RENDER
-		_game->getActiveWindow()->clear();
-		_game->getActiveScene()->onRender();	// Swap with something better
+		frames++;
 
-
-		/* TEST CODE */
-
-		//Keys:
-
-		if (Input::isKeyPressed(GLFW_KEY_UP))
+		if (frameTimer.elapsed() - time > 1.0)
 		{
-			camera->move(vec3f(0, 1, 0), 0.05f);
+			time += 1.0;
+			printf(" %d FPS\n", frames);
+			frames = 0;
+
+			tick();
 		}
 
-		if (Input::isKeyPressed(GLFW_KEY_DOWN))
-		{
-			camera->move(vec3f(0, -1, 0), 0.05f);
-		}
-
-		if (Input::isKeyPressed(GLFW_KEY_LEFT))
-		{
-			camera->move(vec3f(-1, 0, 0), 0.05f);
-		}
-
-		if (Input::isKeyPressed(GLFW_KEY_RIGHT))
-		{
-			camera->move(vec3f(1, 0, 0), 0.05f);
-		}
-
-		if (Input::isKeyPressed(GLFW_KEY_G))
-		{
-			camera->move(vec3f(0, 0, -1), 0.05f);
-		}
-
-		if (Input::isKeyPressed(GLFW_KEY_H))
-		{
-			camera->move(vec3f(0, 0, 1), 0.05f);
-		}
-
-		if (Input::isKeyPressed(GLFW_KEY_Q))
-		{
-	
-		}
-
-		if (Input::isKeyPressed(GLFW_KEY_E))
-		{
-	
-		}
-
-		renderer->push(cube);
-		renderer->flush();
-
-		/* END TEST CODE */
-
-		_game->getActiveWindow()->update();
-
-		// INPUT
-		_game->getInput()->update();
+		render();
 	}
+
+}
+
+void TickHandler::tick()
+{
+	// Tick
+	_game->getActiveScene()->onTick();
+}
+
+void TickHandler::update()
+{
+	// INPUT
+	_game->getInput()->update();
+
+	// Update
+	_game->onUpdate();
+	_game->getActiveScene()->onUpdate();	// MOVE TO GAME
+}
+
+void TickHandler::render()
+{
+	// RENDER
+	_game->getActiveWindow()->clear();
+	_game->getActiveScene()->onRender(); 	// MOVE TO GAME
+	_game->getActiveWindow()->update();
+
 }

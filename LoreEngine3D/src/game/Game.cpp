@@ -9,7 +9,7 @@ Game::Game()
 	_status		  = GAME_STOPPED;
 	_activeWindow = nullptr;
 	_graphics	  = nullptr;
-	_tickHandler  = new TickHandler(*this, 60.0);
+	_tickHandler  = new TickHandler(*this);
 	_activeScene  = nullptr;
 	_input		  = nullptr;
 

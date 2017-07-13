@@ -6,15 +6,14 @@ class Renderable
 {
 private:
 
-	Mesh* _mesh;
-	Matrix4f* _translation;
+	Mesh& _mesh;
+	Matrix4f _translation;
 
 public:
 
-	Renderable(Mesh* mesh, Matrix4f* translation = &Matrix4f::Translation(0,0,0));
-	virtual ~Renderable();
+	Renderable(Mesh& mesh, Matrix4f translation = Matrix4f::Translation(0,0,0));
 	
-	Mesh* getMesh() const;
-	Matrix4f* getTranslation() const;
+	Mesh& getMesh();
+	Matrix4f& getTranslation();
 
 };
