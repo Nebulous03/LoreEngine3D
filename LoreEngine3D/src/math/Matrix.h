@@ -21,26 +21,31 @@ struct Matrix4f {
 	Matrix4f& add(const Matrix4f& other);
 	Matrix4f& sub(const Matrix4f& other);
 	Matrix4f& mul(const Matrix4f& other);
-	Matrix4f& div(const Matrix4f& other);
+
+	Vector2f& mul(const Vector2f& other) const;
+	Vector3f& mul(const Vector3f& other) const;
+	Vector4f& mul(const Vector4f& other) const;
 
 	friend Matrix4f operator+(Matrix4f left, const Matrix4f& right);
 	friend Matrix4f operator-(Matrix4f left, const Matrix4f& right);
 	friend Matrix4f operator*(Matrix4f left, const Matrix4f& right);
-	friend Matrix4f operator/(Matrix4f left, const Matrix4f& right);
+
+	friend Vector2f operator*(Matrix4f left, const Vector2f& right);
+	friend Vector3f operator*(Matrix4f left, const Vector3f& right);
+	friend Vector4f operator*(Matrix4f left, const Vector4f& right);
 
 	Matrix4f& operator+=(const Matrix4f& other);
 	Matrix4f& operator-=(const Matrix4f& other);
 	Matrix4f& operator*=(const Matrix4f& other);
-	Matrix4f& operator/=(const Matrix4f& other);
 
-	static Matrix4f Perspective(
+	static Matrix4f Perspective (
 		const float fov,
 		const float aspect,
 		const float near,
 		const float far
 	);
 
-	static Matrix4f Orthographic(
+	static Matrix4f Orthographic (
 		const float left,
 		const float right,
 		const float bottom,

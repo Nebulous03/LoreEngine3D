@@ -27,8 +27,14 @@ private:
 
 	bool  _visable  = false;
 
+	void (*windowResizeCallback)(Window& window, int width, int height);
+
+	friend void setSize(Window& window, const int width, const int height);
+	friend void window_size_callback(GLFWwindow* window, int width, int height);
+
 public:
 	Window(char*, int, int, DisplayMode);
+	void setResizeCallback(void* resizeCallback);
 	void createWindow();
 	void build();
 	void destroyWindow() const;
@@ -44,5 +50,4 @@ public:
 	GLFWwindow* getGLWindow() const;
 	Graphics* getGraphics();
 	~Window();
-
 };

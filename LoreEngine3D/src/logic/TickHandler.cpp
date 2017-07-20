@@ -9,56 +9,83 @@ void TickHandler::run()
 	_game->initialize();
 	_game->onStart();
 
-	Timer msTimer;
-	Timer frameTimer;
-	float time = 0;
-	unsigned int frames = 0;
+	double oldTime = 0.0;
+	double currentTime = 0.0;
 
 	while (_game->getStatus())
 	{
-		if (glfwWindowShouldClose(_game->getActiveWindow()->getGLWindow())) {
+		if (glfwWindowShouldClose(_game->getActiveWindow().getGLWindow())) {
 			_game->stop(); break;
 		}
 
-		update();
+		oldTime = currentTime;
+		currentTime = _updateTimer.elapsed();
+		_updateDelta = currentTime - oldTime;
 
-		frames++;
-
-		if (frameTimer.elapsed() - time > 1.0)
+		if (_frameTimer.elapsed() - _frameTime > 1.0)
 		{
-			time += 1.0;
-			printf(" %d FPS\n", frames);
-			frames = 0;
-
-			tick();
+			_frameTime += 1.0;
+			_activeFPS = _frames;
+			_frames = 0;
 		}
 
+		if (_isTPSCapped && _updateTimer.elapsed() - _updateTime > 1.0 / _TPS) {
+			_updateTime += 1.0 / _TPS;
+			tick(_updateDelta);
+		}
+
+		update(_updateDelta);
+
+		_msTimer.reset();
 		render();
+		_msTime = _msTimer.elapsed();
+
+		_frames++;
 	}
 
 }
 
-void TickHandler::tick()
+void TickHandler::tick(double delta)
 {
 	// Tick
-	_game->getActiveScene()->onTick();
+	_game->getActiveScene().onTick(*_game, delta);
 }
 
-void TickHandler::update()
+void TickHandler::update(double delta)
 {
 	// INPUT
-	_game->getInput()->update();
+	_game->getInput().update();
 
 	// Update
 	_game->onUpdate();
-	_game->getActiveScene()->onUpdate();	// MOVE TO GAME
+	_game->getActiveScene().onUpdate(*_game, delta);	// MOVE TO GAME
 }
 
 void TickHandler::render()
 {
 	// RENDER
-	_game->getActiveWindow()->clear();
-	_game->getActiveScene()->onRender(); 	// MOVE TO GAME
-	_game->getActiveWindow()->update();
+	_game->getActiveWindow().clear();
+	_game->getActiveScene().onRender(); 	// MOVE TO GAME
+	_game->getActiveWindow().update();
 
+}
+
+void TickHandler::setTPSLimit(double tps)
+{
+	_TPS = tps;
+}
+
+void TickHandler::setFPSLimit(double fps)
+{
+	_FPS = fps;
+}
+
+unsigned int TickHandler::getFPS() const
+{
+	return _activeFPS;
+}
+
+double TickHandler::getRenderTime() const
+{
+	return _msTime;
 }

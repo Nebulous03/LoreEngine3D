@@ -7,7 +7,11 @@
 
 BaseRenderer::BaseRenderer(Shader& shader, Camera& camera) : _shader(shader), _camera(camera) {}
 
-BasicRenderer::BasicRenderer(Shader& shader, Camera& camera) : BaseRenderer(shader, camera) {}
+BasicRenderer::BasicRenderer(Shader& shader, Camera& camera) : BaseRenderer(shader, camera)
+{
+	_transformStack.push_back(Matrix4f::Identity());
+	_lastTransform = &_transformStack.back();
+}
 
 BaseRenderer::~BaseRenderer() {}
 
@@ -17,19 +21,21 @@ void BaseRenderer::end() {}
 
 void BasicRenderer::push(Renderable* renderable)
 {
-	_renderables.push_back(renderable);
+	//renderable->getTranslation() *= _transformStack.back();
+	_renderQueue.push_back(renderable);
 }
 
 void BasicRenderer::flush()
 {
 	_shader.bind();
-	while (!_renderables.empty())
+	while (!_renderQueue.empty())
 	{
-		Renderable* renderable = _renderables.front();
+		Renderable* renderable = _renderQueue.front();
 		renderable->getMesh().getVAO()->bind();
 		renderable->getMesh().getIBO()->bind();
 
-		_shader.setUniform("model", renderable->getTranslation());
+		_lastTransform = &_transformStack.back();
+		_shader.setUniform("model", renderable->getTranslation() * *_lastTransform);
 		_shader.setUniform("projection", _camera.getProjection());
 		_shader.setUniform("view", _camera.getView());
 
@@ -38,9 +44,23 @@ void BasicRenderer::flush()
 		renderable->getMesh().getIBO()->unbind();
 		renderable->getMesh().getVAO()->unbind();
 
-		_renderables.pop_front();
+		_renderQueue.pop_front();
 	}
 	_shader.unbind();
+}
+
+void BasicRenderer::pushTransform(const Matrix4f& transform, bool override)
+{
+	if (override) _transformStack.push_back(transform);
+	else _transformStack.push_back(_transformStack.back() * transform);
+	_lastTransform = &_transformStack.back();
+}
+
+void BasicRenderer::popTransform()
+{
+	if(_transformStack.size() > 1)
+		_transformStack.pop_back();
+	_lastTransform = &_transformStack.back();
 }
 
 /* BATCH RENDERER */

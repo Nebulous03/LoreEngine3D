@@ -1,7 +1,7 @@
 #include "camera.h"
 
 Camera::Camera(const Vector3f pos, const uint projection, const float width, const float height, const float fov) :
-	_position(pos), _projectionType(projection), _fov(fov)
+	_position(pos), _projectionType(projection), _width(width), _height(height), _fov(fov)
 {
 	switch (projection)
 	{
@@ -16,6 +16,24 @@ Camera::Camera(const Vector3f pos, const uint projection, const float width, con
 	}
 
 	_viewMatix = Matrix4f::Identity();
+}
+
+Camera& Camera::resize(const float width, const float height)
+{
+	_width = width;
+	_height = height;
+	switch (_projectionType)
+	{
+	case CAMERA_ORTOGRAPHIC:
+		_projectionMatrix = Matrix4f::Orthographic(0, width, 0, height, -1.0f, 1.0f);
+		break;
+	case CAMERA_PERSPECTIVE:
+		_projectionMatrix = Matrix4f::Perspective(_fov, width / height, NEAR_PLANE, FAR_PLANE);
+		break;
+	default:
+		break;
+	}
+	return *this;
 }
 
 Camera& Camera::move(const Vector3f& direction, const float speed)

@@ -51,13 +51,13 @@ void Game::loadScene(Scene* scene)
 {
 	// TODO: Check for active instance
 	_activeScene = scene;
-	_activeScene->onLoad();
+	_activeScene->onLoad(*this);
 }
 
 void Game::unloadActiveInstance()
 {
 	if (_activeScene) {
-		_activeScene->onUnload();
+		_activeScene->onUnload(*this);
 		//delete _activeScene; // Maybe?
 		_activeScene = nullptr;
 	}
@@ -66,24 +66,29 @@ void Game::unloadActiveInstance()
 	}
 }
 
-Graphics* Game::getGraphics()
+Graphics& Game::getGraphics()
 {
-	return _graphics;
+	return *_graphics;
 }
 
-Scene* Game::getActiveScene()
+TickHandler& Game::getTickHandler()
 {
-	return _activeScene;
+	return *_tickHandler;
 }
 
-Window* Game::getActiveWindow()
+Scene& Game::getActiveScene()
 {
-	return _activeWindow;
+	return *_activeScene;
 }
 
-Input* Game::getInput()
+Window& Game::getActiveWindow()
 {
-	return _input;
+	return *_activeWindow;
+}
+
+Input& Game::getInput()
+{
+	return *_input;
 }
 
 void Game::linkWindow(Window* window)

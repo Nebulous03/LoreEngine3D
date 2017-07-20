@@ -40,10 +40,34 @@ Matrix4f& Matrix4f::mul(const Matrix4f& other)
 	return *this;
 }
 
-Matrix4f& Matrix4f::div(const Matrix4f& other)
+Vector2f& Matrix4f::mul(const Vector2f& other) const
 {
-	// To be completed later (maybe)
-	return *this;
+	return Vector2f
+		(
+			columns[0].x * other.x + columns[1].x * other.y + columns[2].x + columns[4].x,
+			columns[0].y * other.x + columns[1].y * other.y + columns[2].y + columns[4].y
+			);
+}
+
+Vector3f& Matrix4f::mul(const Vector3f& other) const
+{
+	return Vector3f
+		(
+			columns[0].x * other.x + columns[1].x * other.y + columns[2].x * other.z + columns[4].x,
+			columns[0].y * other.x + columns[1].y * other.y + columns[2].y * other.z + columns[4].y,
+			columns[0].z * other.x + columns[1].z * other.y + columns[2].z * other.z + columns[4].z
+		);
+}
+
+Vector4f& Matrix4f::mul(const Vector4f& other) const
+{
+	return Vector4f
+		(
+			columns[0].x * other.x + columns[1].x * other.y + columns[2].x * other.z + columns[4].x * other.w,
+			columns[0].y * other.x + columns[1].y * other.y + columns[2].y * other.z + columns[4].y * other.w,
+			columns[0].z * other.x + columns[1].z * other.y + columns[2].z * other.z + columns[4].z * other.w,
+			columns[0].w * other.x + columns[1].w * other.y + columns[2].w * other.z + columns[4].w * other.w
+		);
 }
 
 Matrix4f operator+(Matrix4f left, const Matrix4f& right)
@@ -61,9 +85,19 @@ Matrix4f operator*(Matrix4f left, const Matrix4f& right)
 	return left.mul(right);
 }
 
-Matrix4f operator/(Matrix4f left, const Matrix4f& right)
+Vector2f operator*(Matrix4f left, const Vector2f& right)
 {
-	return left.div(right);
+	return left.mul(right);
+}
+
+Vector3f operator*(Matrix4f left, const Vector3f& right)
+{
+	return left.mul(right);
+}
+
+Vector4f operator*(Matrix4f left, const Vector4f& right)
+{
+	return left.mul(right);
 }
 
 Matrix4f& Matrix4f::operator+=(const Matrix4f& other)
@@ -79,11 +113,6 @@ Matrix4f& Matrix4f::operator-=(const Matrix4f& other)
 Matrix4f& Matrix4f::operator*=(const Matrix4f& other)
 {
 	return mul(other);
-}
-
-Matrix4f& Matrix4f::operator/=(const Matrix4f& other)
-{
-	return div(other);
 }
 
 Matrix4f Matrix4f::Perspective(

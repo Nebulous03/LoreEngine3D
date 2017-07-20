@@ -13,6 +13,9 @@ class Camera
 {
 protected:
 
+	float _width;
+	float _height;
+
 	Vector3f _position;
 	Vector3f _rotation;
 
@@ -25,7 +28,9 @@ protected:
 
 public:
 
-	Camera(const Vector3f pos, const uint projection,const float width, const float height, const float fov = DEFAULT_FOV);
+	Camera(const Vector3f pos, const uint projection, const float width, const float height, const float fov = DEFAULT_FOV);
+
+	Camera& resize(const float width, const float height);
 
 	Camera& move(const Vector3f& direction, const float speed);
 	//Camera& move(Vector3f angle, float delta);

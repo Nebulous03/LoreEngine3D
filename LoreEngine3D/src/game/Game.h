@@ -1,15 +1,16 @@
 #pragma once
+#include "Scene.h"
 #include "..\graphics\Window.h"
 #include "..\logic\TickHandler.h"
 #include "..\logic\Input.h"
-#include "Scene.h"
 #include <map>
 
 #define GAME_STOPPED	0
 #define GAME_RUNNING	1
 #define GAME_PAUSED		2
 
-class TickHandler; // This is bad...
+class TickHandler;  // This is bad...
+class Scene;		// This too...
 
 class Game {
 
@@ -37,10 +38,11 @@ public:
 	void loadScene(Scene* scene);
 	void unloadActiveInstance();
 
-	Scene* getActiveScene();
-	Graphics* getGraphics();
-	Window* getActiveWindow();
-	Input* getInput();
+	Scene& getActiveScene();
+	Graphics& getGraphics();
+	TickHandler& getTickHandler();
+	Window& getActiveWindow();
+	Input& getInput();
 
 	void linkWindow(Window* window);
 

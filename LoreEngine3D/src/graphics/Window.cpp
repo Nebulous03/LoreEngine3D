@@ -75,6 +75,10 @@ void Window::build()
 		std::cout << " Error! : Failed to initialize GLEW!" << std::endl;
 	else 
 		std::cout << " GLEW initialized successfully!" << std::endl;
+
+	glfwSetWindowUserPointer(_window, this);
+	glfwSetWindowSizeCallback(_window, window_size_callback);
+	glfwFocusWindow(_window);
 }
 
 void Window::clear() const
@@ -121,7 +125,29 @@ DisplayMode Window::getDisplayMode()
 
 void Window::resize(int width, int height)
 {
+	_width = width;
+	_height = height;
 	glfwSetWindowSize(_window, width, height);
+}
+
+void Window::setResizeCallback(void* resizeCallback)
+{
+	windowResizeCallback = (void(*)(Window& window, int width, int height))resizeCallback;
+}
+
+void setSize(Window& window, const int width, const int height)
+{
+	window._width = width;
+	window._height = height;
+	std::cout << window._width << ", " << window._height << std::endl;
+	if (window.windowResizeCallback != nullptr)
+		window.windowResizeCallback(window, width, height);
+}
+
+void window_size_callback(GLFWwindow* window, int width, int height)
+{
+	Window* win = (Window*)glfwGetWindowUserPointer(window);
+	setSize(*win, width, height);
 }
 
 void Window::setVisable(bool visable)

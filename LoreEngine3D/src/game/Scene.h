@@ -1,12 +1,15 @@
 #pragma once
+#include "Game.h"
+
+class Game;
 
 class Scene {
 
 public:
-	virtual void onLoad()	= 0;
-	virtual void onUnload() = 0;
-	virtual void onTick()	= 0;
-	virtual void onUpdate() = 0;
-	virtual void onRender() = 0;
+	virtual void onLoad(Game& game)					= 0;
+	virtual void onUnload(Game& game)				= 0;
+	virtual void onTick(Game& game, double delta)   = 0;
+	virtual void onUpdate(Game& game, double delta)	= 0;
+	virtual void onRender()							= 0;
 
 };

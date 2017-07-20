@@ -3,7 +3,7 @@
 #include <string>
 
 #define LORE_GL_VERSION_MAJOR	4		// LoreEngine max OpenGL version
-#define LORE_GL_VERSION_MINOR	0		// LoreEngine min OpenGL version
+#define LORE_GL_VERSION_MINOR	3		// LoreEngine min OpenGL version
 
 #define GRAPHICS_NONE			000
 #define GRAPHICS_OPENGL			100
