@@ -22,9 +22,9 @@ struct Matrix4f {
 	Matrix4f& sub(const Matrix4f& other);
 	Matrix4f& mul(const Matrix4f& other);
 
-	Vector2f& mul(const Vector2f& other) const;
-	Vector3f& mul(const Vector3f& other) const;
-	Vector4f& mul(const Vector4f& other) const;
+	Vector2f mul(const Vector2f& other) const;
+	Vector3f mul(const Vector3f& other) const;
+	Vector4f mul(const Vector4f& other) const;
 
 	friend Matrix4f operator+(Matrix4f left, const Matrix4f& right);
 	friend Matrix4f operator-(Matrix4f left, const Matrix4f& right);

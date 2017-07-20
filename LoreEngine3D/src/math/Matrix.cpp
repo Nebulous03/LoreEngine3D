@@ -40,7 +40,7 @@ Matrix4f& Matrix4f::mul(const Matrix4f& other)
 	return *this;
 }
 
-Vector2f& Matrix4f::mul(const Vector2f& other) const
+Vector2f Matrix4f::mul(const Vector2f& other) const
 {
 	return Vector2f
 		(
@@ -49,7 +49,7 @@ Vector2f& Matrix4f::mul(const Vector2f& other) const
 			);
 }
 
-Vector3f& Matrix4f::mul(const Vector3f& other) const
+Vector3f Matrix4f::mul(const Vector3f& other) const
 {
 	return Vector3f
 		(
@@ -59,7 +59,7 @@ Vector3f& Matrix4f::mul(const Vector3f& other) const
 		);
 }
 
-Vector4f& Matrix4f::mul(const Vector4f& other) const
+Vector4f Matrix4f::mul(const Vector4f& other) const
 {
 	return Vector4f
 		(

@@ -8,17 +8,23 @@ SceneLayer::~SceneLayer()
 	//	delete renderable;
 }
 
-SceneLayer& SceneLayer::add(Renderable* renderable)
+SceneLayer& SceneLayer::add(Entity& entity)
 {
-	_renderables.push_back(renderable);
+	_entities.push_back(&entity);
 	return *this;
 }
 
 void SceneLayer::render()
 {
 	_renderer.begin();
-	for (Renderable* renderable : _renderables)
-		_renderer.push(renderable);
+	for (Entity* entity : _entities) {
+		if (entity->getParent() != nullptr)
+		{
+			((BasicRenderer*)&_renderer)->push(entity->getParent()->getRenderable()->getTranslation());
+			//((BasicRenderer*)&_renderer)->pop();
+		}
+		_renderer.push(entity->getRenderable());
+	}
 	_renderer.end();
 	_renderer.flush();
 }

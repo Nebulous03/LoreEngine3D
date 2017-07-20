@@ -1,7 +1,7 @@
 #include "TestScene.h"
 #include "graphics\Graphics.h"
 
-#define LOG_TICK 0
+#define LOG_TICK 1
 
 TestScene::TestScene()
 {
@@ -15,14 +15,15 @@ TestScene::TestScene()
 	_cubeMesh2 = loadMesh("res/meshs/cube.obj");
 
 	_cube = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, -3.0f));
-	_cube2 = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, -3.0f));
+	_cube2 = new Renderable(*_cubeMesh, mat4f::Translation(1.0f, 1.0f, 0.0f));
 
-	_layer->add(_cube);
+	Entity* cubeEntity = new Entity(*_cube);
+	Entity* cubeEntity2 = new Entity(*_cube2);
 
-	//_renderer->pushTransform(Matrix4f::Rotation(vec3f(0, 0, 1), 45.0f));
-	//_renderer->pushTransform(Matrix4f::Translation(1, 0, 0));
+	cubeEntity2->parent(*cubeEntity);
 
-	_layer->add(_cube2);
+	_layer->add(*cubeEntity);
+	_layer->add(*cubeEntity2);
 }
 
 TestScene::~TestScene()
@@ -44,7 +45,7 @@ void resizeCallback(Window& window, int width, int height)
 void TestScene::onLoad(Game& game)
 {
 	game.getTickHandler().setTPSLimit(10.0);
-	_camera->resize(1920.0f, 1080.0f);
+	//_camera->resize(1920.0f, 1080.0f);
 	//game.getGraphics().setDisplay(WINDOWED, 1920, 1080);
 	game.getActiveWindow().setResizeCallback(resizeCallback);
 }

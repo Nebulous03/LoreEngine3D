@@ -8,8 +8,8 @@ int main()
 {
 	TestGame testGame;													// Create Game Instance
 
-	//Window window("LoreEngine Test", 640, 480, WINDOWED);				// Create Window
-	Window window("LoreEngine Test", 1920, 1080, WINDOWED);
+	Window window("LoreEngine Test", 640, 480, WINDOWED);				// Create Window
+	//Window window("LoreEngine Test", 1920, 1080, WINDOWED);
 	window.createWindow();												// Create Window
 
 	testGame.linkWindow(&window);										// Link Window

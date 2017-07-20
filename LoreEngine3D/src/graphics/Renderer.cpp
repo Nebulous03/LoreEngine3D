@@ -3,6 +3,8 @@
 #include <cstdio>
 #include <iostream>
 
+RenderAction::RenderAction(uint8_t actionID, void* data) : actionID(actionID), data(data) {}
+
 /* BASIC RENDERER */
 
 BaseRenderer::BaseRenderer(Shader& shader, Camera& camera) : _shader(shader), _camera(camera) {}
@@ -21,8 +23,8 @@ void BaseRenderer::end() {}
 
 void BasicRenderer::push(Renderable* renderable)
 {
-	//renderable->getTranslation() *= _transformStack.back();
-	_renderQueue.push_back(renderable);
+	RenderAction* action = new RenderAction(ACTION_RENDER_TRIANGLES, renderable);
+	_renderQueue.push_back(action);
 }
 
 void BasicRenderer::flush()
@@ -30,23 +32,50 @@ void BasicRenderer::flush()
 	_shader.bind();
 	while (!_renderQueue.empty())
 	{
-		Renderable* renderable = _renderQueue.front();
-		renderable->getMesh().getVAO()->bind();
-		renderable->getMesh().getIBO()->bind();
+		RenderAction* action = _renderQueue.front();
+		switch (action->actionID)
+		{
+		case ACTION_RENDER_TRIANGLES:
+		{
+			Renderable* renderable = (Renderable*)action->data;
+			renderable->getMesh().getVAO()->bind();
+			renderable->getMesh().getIBO()->bind();
 
-		_lastTransform = &_transformStack.back();
-		_shader.setUniform("model", renderable->getTranslation() * *_lastTransform);
-		_shader.setUniform("projection", _camera.getProjection());
-		_shader.setUniform("view", _camera.getView());
+			_lastTransform = &_transformStack.back();
+			_shader.setUniform("model", renderable->getTranslation() * *_lastTransform);
+			_shader.setUniform("projection", _camera.getProjection());
+			_shader.setUniform("view", _camera.getView());
 
-		glDrawElements(GL_TRIANGLES, renderable->getMesh().getIBO()->getSize(), GL_UNSIGNED_SHORT, nullptr);
+			glDrawElements(GL_TRIANGLES, renderable->getMesh().getIBO()->getSize(), GL_UNSIGNED_SHORT, nullptr);
 
-		renderable->getMesh().getIBO()->unbind();
-		renderable->getMesh().getVAO()->unbind();
-
+			renderable->getMesh().getIBO()->unbind();
+			renderable->getMesh().getVAO()->unbind();
+			break;
+		}
+		case ACTION_PUSH_TRANSFORM:
+		{
+			pushTransform(*((Matrix4f*)(action->data)), false);
+			break;
+		}
+		case ACTION_POP_TRANSFORM:
+		{
+			popTransform();
+			break;
+		}
+		default:
+			break;
+		}
 		_renderQueue.pop_front();
 	}
 	_shader.unbind();
+	_transformStack.clear();
+	_transformStack.push_back(Matrix4f::Identity()); // SLOW!
+}
+
+void BasicRenderer::push(Matrix4f& transform)
+{
+	RenderAction* action = new RenderAction(ACTION_PUSH_TRANSFORM, &transform);
+	_renderQueue.push_back(action);
 }
 
 void BasicRenderer::pushTransform(const Matrix4f& transform, bool override)

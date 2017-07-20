@@ -187,6 +187,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\entity\Entity.cpp" />
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\Scene.cpp" />
     <ClCompile Include="src\graphics\buffers\Buffers.cpp" />
@@ -211,6 +212,7 @@
     <ClCompile Include="src\utils\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\entity\Entity.h" />
     <ClInclude Include="src\game\Game.h" />
     <ClInclude Include="src\game\Scene.h" />
     <ClInclude Include="src\graphics\buffers\Buffers.h" />

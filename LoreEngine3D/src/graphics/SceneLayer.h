@@ -1,4 +1,5 @@
 #pragma once
+#include "../entity/Entity.h"
 #include "Shader.h"
 #include "Renderable.h"
 #include "Renderer.h"
@@ -9,14 +10,14 @@ class SceneLayer
 protected:
 
 	BaseRenderer& _renderer;
-	std::vector<Renderable*> _renderables;
+	std::vector<Entity*> _entities;
 
 public:
 
 	SceneLayer(BaseRenderer& renderer);
 	virtual ~SceneLayer();
 
-	SceneLayer& add(Renderable* renderable);
+	SceneLayer& add(Entity& entity);
 
 	void render();
 

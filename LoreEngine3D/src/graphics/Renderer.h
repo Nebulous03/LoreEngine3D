@@ -12,14 +12,22 @@
 #define ACTION_NONE				0
 #define ACTION_RENDER_TRIANGLES	1
 #define ACTION_RENDER_LINES		2
-#define ACTION_PUSH_TRANSFROM	3
+#define ACTION_PUSH_TRANSFORM	3
 #define ACTION_POP_TRANSFORM	4
 #define ACTION_RESET_TRANSFORM	5
+
+struct Vertex
+{
+	Vector3f vertex;
+	Vector3f color;
+};
 
 struct RenderAction
 {
 	uint8_t actionID = ACTION_NONE;
 	void* data = nullptr;
+
+	RenderAction(uint8_t actionID, void* data);
 };
 
 class BaseRenderer
@@ -40,16 +48,18 @@ class BasicRenderer : public BaseRenderer
 {
 protected:
 
-	std::deque<Renderable*> _renderQueue;
+	std::deque<RenderAction*> _renderQueue;
 	std::vector<Matrix4f> _transformStack;
 	Matrix4f* _lastTransform;
+
+	void pushTransform(const Matrix4f& transform, bool override = false);
+	void popTransform();
 
 public:
 	BasicRenderer(Shader& shader, Camera& camera);
 	void push(Renderable* renderable) override;
+	void push(Matrix4f& transform);
 	void flush() override;
-	void pushTransform(const Matrix4f& transform, bool override = false);
-	void popTransform();
 };
 
 class BatchRenderer : public BaseRenderer
