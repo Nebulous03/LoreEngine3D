@@ -1,5 +1,7 @@
 #include "TestScene.h"
 #include "graphics\Graphics.h"
+#include "utils\TextureLoader.h"
+#include <GLFW\glfw3.h>
 
 #define LOG_TICK 1
 
@@ -11,26 +13,33 @@ TestScene::TestScene()
 
 	_layer = new SceneLayer(*_renderer);
 
-	_cubeMesh = loadMesh("res/meshs/cube.obj");
-	_cubeMesh2 = loadMesh("res/meshs/cube.obj");
+	Mesh* _cubeMesh = loadMesh("res/meshs/bunny.obj");	// DOES NOT GET DELETED!
 
-	_cube = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, -3.0f));
-	_cube2 = new Renderable(*_cubeMesh, mat4f::Translation(1.0f, 1.0f, 0.0f));
+	Renderable* cube = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, -3.0f));
+	Renderable* cube2 = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 1.0f, 0.0f));
+	Renderable* cube3 = new Renderable(*_cubeMesh, mat4f::Translation(-2.0f, -2.0f, 0.0f));
+	Renderable* cube4 = new Renderable(*_cubeMesh, mat4f::Translation(-2.0f, -2.0f, -3.0f));
 
-	Entity* cubeEntity = new Entity(*_cube);
-	Entity* cubeEntity2 = new Entity(*_cube2);
+	Texture* texture = createTexture("crate.png");
+
+	texture->bind();
+
+	cubeEntity = new Entity(*cube);
+	Entity* cubeEntity2 = new Entity(*cube2);
+	Entity* cubeEntity3 = new Entity(*cube3);
+	Entity* cubeEntity4 = new Entity(*cube4);
 
 	cubeEntity2->parent(*cubeEntity);
+	cubeEntity3->parent(*cubeEntity2);
 
 	_layer->add(*cubeEntity);
-	_layer->add(*cubeEntity2);
+	//_layer->add(*cubeEntity2);
+	//_layer->add(*cubeEntity3);
+	//_layer->add(*cubeEntity4);
 }
 
 TestScene::~TestScene()
 {
-	delete _cube;
-	delete _cubeMesh;
-	delete _cubeMesh2;
 	delete _camera;
 	delete _colorShader;
 	delete _renderer;
@@ -66,6 +75,10 @@ void TestScene::onTick(Game& game, double delta)
 
 void TestScene::onUpdate(Game& game, double delta)
 {
+
+	//cubeEntity->getRenderable()->pushTransform(Matrix4f::Translation(2 * (float)Input::getMouseX() / game.getActiveWindow().getWidth(),
+	//		2 * -(float)Input::getMoustY() / game.getActiveWindow().getHeight(), -3.0f));
+
 	if (Input::isKeyPressed(GLFW_KEY_Q))
 	{
 		_camera->rotate(vec3f(0, 1, 0), (float)delta * 0.25f);

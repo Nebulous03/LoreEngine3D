@@ -6,20 +6,24 @@
 #define MAX_VERTICES	65535
 #define VERTEX_SIZE		sizeof(Vertex)
 
-#define SHADER_VERTEX_LOCATION	0
-#define SHADER_COLOR_LOCATION	1
+#define SHADER_VERTEX_LOCATION		0
+#define SHADER_COLOR_LOCATION		1
+#define SHADER_TEXCOORD_LOCATION	2
+#define SHADER_NORMAL_LOCATION		3
 
-#define ACTION_NONE				0
-#define ACTION_RENDER_TRIANGLES	1
-#define ACTION_RENDER_LINES		2
-#define ACTION_PUSH_TRANSFORM	3
-#define ACTION_POP_TRANSFORM	4
-#define ACTION_RESET_TRANSFORM	5
+#define ACTION_NONE					0
+#define ACTION_RENDER_TRIANGLES		1
+#define ACTION_RENDER_LINES			2
+#define ACTION_PUSH_TRANSFORM		3
+#define ACTION_POP_TRANSFORM		4
+#define ACTION_RESET_TRANSFORM		5
 
 struct Vertex
 {
 	Vector3f vertex;
 	Vector3f color;
+	Vector2f texCoord;
+	Vector3f normal;
 };
 
 struct RenderAction
@@ -40,7 +44,7 @@ public:
 	virtual ~BaseRenderer();
 	virtual void begin();
 	virtual void end();
-	virtual void push(Renderable* renderable) = 0;
+	virtual void submit(Renderable* renderable) = 0;
 	virtual void flush() = 0;
 };
 
@@ -57,8 +61,9 @@ protected:
 
 public:
 	BasicRenderer(Shader& shader, Camera& camera);
-	void push(Renderable* renderable) override;
+	void submit(Renderable* renderable) override;
 	void push(Matrix4f& transform);
+	void pop();
 	void flush() override;
 };
 
@@ -81,7 +86,7 @@ public:
 
 	void add(Renderable& renderable);
 
-	void push(Renderable* renderable) override;
+	void submit(Renderable* renderable) override;
 	void flush() override;
 
 };

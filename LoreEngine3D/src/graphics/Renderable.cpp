@@ -1,13 +1,13 @@
 #include "Renderable.h"
 
-Renderable::Renderable(Mesh& mesh, Matrix4f translation) : _mesh(mesh), _translation(translation) {}
+Renderable::Renderable(Mesh& mesh, Matrix4f transform) : _mesh(mesh), _transform(transform) {}
 
 Mesh& Renderable::getMesh()
 {
 	return _mesh;
 }
 
-Matrix4f& Renderable::getTranslation()
+Matrix4f& Renderable::getTransform()
 {
-	return _translation;
+	return _transform;
 }

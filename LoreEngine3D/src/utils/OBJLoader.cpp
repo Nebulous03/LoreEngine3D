@@ -62,19 +62,19 @@ Mesh* loadMesh(const char* path)
 				if (c1.size() == 3) {	/* Vert/Tex/Norm */						// BAD WAY TO DO IT!
 
 					index.vi = (short)std::stoi(c1[0]) - 1;
-					try { index.ti = (short)std::stoi(c1[1]) - 1; } catch (std::invalid_argument) {}
+					if(c1[1] != "") index.ti = (short)std::stoi(c1[1]) - 1;
 					index.ni = (short)std::stoi(c1[2]) - 1;
 
 					indices.push_back(index);
 
 					index.vi = (short)std::stoi(c2[0]) - 1;
-					try { index.ti = (short)std::stoi(c2[1]) - 1; } catch (std::invalid_argument) {}
+					if (c2[1] != "") index.ti = (short)std::stoi(c2[1]) - 1;
 					index.ni = (short)std::stoi(c2[2]) - 1;
 
 					indices.push_back(index);
 
 					index.vi = (short)std::stoi(c3[0]) - 1;
-					try { index.ti = (short)std::stoi(c3[1]) - 1; } catch (std::invalid_argument) {}
+					if (c2[1] != "") index.ti = (short)std::stoi(c3[1]) - 1;
 					index.ni = (short)std::stoi(c3[2]) - 1;
 
 					indices.push_back(index);
@@ -149,25 +149,10 @@ Mesh* loadMesh(const char* path)
 
 	std::cout << " Mesh [" << path << "] loaded successfully." << std::endl;
 
-	/*
-
-	//VERTEX
-	for (unsigned int i = 0; i < vertexSize; i++)
-	{
-		std::cout << verticesArray[i] << ", ";
-		if (i % 3 == 2) std::cout << std::endl;
-	}
-
-	//INDEX
-	for (unsigned int i = 0; i < indexSize; i++)
-	{
-		std::cout << indicesArray[i] << ", ";
-		if (i % 3 == 2) std::cout << std::endl;
-	}
-	
-	*/
-
-	return new Mesh(verticesArray, vertexSize, indicesArray, indexSize);
+	if(texCoordSize > 0)
+		return new Mesh(verticesArray, vertexSize, indicesArray, indexSize, 0, 0, texCoordsArray, texCoordSize);
+	else
+		return new Mesh(verticesArray, vertexSize, indicesArray, indexSize, 0, 0, verticesArray, vertexSize);
 }
 
 std::vector<std::string> split(std::string string, char delim)

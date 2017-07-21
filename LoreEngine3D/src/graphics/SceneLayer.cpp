@@ -4,8 +4,8 @@ SceneLayer::SceneLayer(BaseRenderer& renderer) : _renderer(renderer) {}
 
 SceneLayer::~SceneLayer()
 {
-	//for (Renderable* renderable : _renderables)
-	//	delete renderable;
+	for (Entity* entity : _entities)
+		delete entity;
 }
 
 SceneLayer& SceneLayer::add(Entity& entity)
@@ -20,10 +20,12 @@ void SceneLayer::render()
 	for (Entity* entity : _entities) {
 		if (entity->getParent() != nullptr)
 		{
-			((BasicRenderer*)&_renderer)->push(entity->getParent()->getRenderable()->getTranslation());
-			//((BasicRenderer*)&_renderer)->pop();
+			((BasicRenderer*)&_renderer)->push(entity->getParent()->getRenderable()->getTransform());
+			_renderer.submit(entity->getRenderable());
+			((BasicRenderer*)&_renderer)->pop();
 		}
-		_renderer.push(entity->getRenderable());
+		else
+			_renderer.submit(entity->getRenderable());
 	}
 	_renderer.end();
 	_renderer.flush();

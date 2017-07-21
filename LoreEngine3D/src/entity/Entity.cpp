@@ -2,6 +2,10 @@
 
 Entity::Entity(Renderable& renderable) : _renderable(&renderable) {}
 
+Entity::~Entity() {
+	delete _renderable;
+}
+
 Entity& Entity::setPosition(float x, float y, float z)
 {
 	return *this;
@@ -52,6 +56,11 @@ void Entity::parent(Entity& entity)
 Entity* Entity::getParent()
 {
 	return _parent;
+}
+
+std::vector<Component*>* Entity::getComponents()
+{
+	return &_components;
 }
 
 Renderable* Entity::getRenderable()

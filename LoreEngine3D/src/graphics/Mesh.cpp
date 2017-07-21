@@ -30,7 +30,7 @@ Mesh::Mesh	// TODO: Allow texCoords w/o setting colors
 	if (texCoords != nullptr)
 	{
 		_tbo = new Buffer(texCoords, texCoordCount, 3);
-		_vao->attach(_cbo, 2);
+		_vao->attach(_tbo, 2);
 	}
 
 }

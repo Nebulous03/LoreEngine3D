@@ -3,6 +3,8 @@
 #include <cstdio>
 #include <iostream>
 
+#define PRINT_RENDER_QUEUE 0
+
 RenderAction::RenderAction(uint8_t actionID, void* data) : actionID(actionID), data(data) {}
 
 /* BASIC RENDERER */
@@ -21,14 +23,34 @@ void BaseRenderer::begin() {}
 
 void BaseRenderer::end() {}
 
-void BasicRenderer::push(Renderable* renderable)
-{
-	RenderAction* action = new RenderAction(ACTION_RENDER_TRIANGLES, renderable);
-	_renderQueue.push_back(action);
-}
-
 void BasicRenderer::flush()
 {
+
+#if PRINT_RENDER_QUEUE
+
+	for (RenderAction* action : _renderQueue)
+	{
+		printf("[%d]", action->actionID);
+		switch (action->actionID) {
+		case ACTION_NONE:
+			printf("ACTION_NONE\n"); break;
+		case ACTION_RENDER_TRIANGLES:
+			printf("ACTION_RENDER_TRIANGLES\n"); break;
+		case ACTION_RENDER_LINES:
+			printf("ACTION_RENDER_LINES\n"); break;
+		case ACTION_PUSH_TRANSFORM:
+			printf("ACTION_PUSH_TRANSFORM\n"); break;
+		case ACTION_POP_TRANSFORM:
+			printf("ACTION_POP_TRANSFORM\n"); break;
+		case ACTION_RESET_TRANSFORM:
+			printf("ACTION_RESET_TRANSFORM\n"); break;
+		}
+	}
+
+	printf("STOP\n");
+
+#endif
+
 	_shader.bind();
 	while (!_renderQueue.empty())
 	{
@@ -40,14 +62,16 @@ void BasicRenderer::flush()
 			Renderable* renderable = (Renderable*)action->data;
 			renderable->getMesh().getVAO()->bind();
 			renderable->getMesh().getIBO()->bind();
+			renderable->getMesh().getTBO()->bind();
 
 			_lastTransform = &_transformStack.back();
-			_shader.setUniform("model", renderable->getTranslation() * *_lastTransform);
+			_shader.setUniform("model", renderable->getTransform() * *_lastTransform);
 			_shader.setUniform("projection", _camera.getProjection());
 			_shader.setUniform("view", _camera.getView());
 
 			glDrawElements(GL_TRIANGLES, renderable->getMesh().getIBO()->getSize(), GL_UNSIGNED_SHORT, nullptr);
 
+			renderable->getMesh().getTBO()->unbind();
 			renderable->getMesh().getIBO()->unbind();
 			renderable->getMesh().getVAO()->unbind();
 			break;
@@ -72,9 +96,21 @@ void BasicRenderer::flush()
 	_transformStack.push_back(Matrix4f::Identity()); // SLOW!
 }
 
+void BasicRenderer::submit(Renderable* renderable)
+{
+	RenderAction* action = new RenderAction(ACTION_RENDER_TRIANGLES, renderable);
+	_renderQueue.push_back(action);
+}
+
 void BasicRenderer::push(Matrix4f& transform)
 {
 	RenderAction* action = new RenderAction(ACTION_PUSH_TRANSFORM, &transform);
+	_renderQueue.push_back(action);
+}
+
+void BasicRenderer::pop()
+{
+	RenderAction* action = new RenderAction(ACTION_POP_TRANSFORM, nullptr);
 	_renderQueue.push_back(action);
 }
 
@@ -105,7 +141,7 @@ BatchRenderer::~BatchRenderer()
 	glDeleteBuffers(1, &_vbo);
 }
 
-void BatchRenderer::push(Renderable* renderable)
+void BatchRenderer::submit(Renderable* renderable)
 {
 	Vertex* buffer = (Vertex*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 }

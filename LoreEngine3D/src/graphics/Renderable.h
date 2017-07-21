@@ -7,13 +7,13 @@ class Renderable
 private:
 
 	Mesh& _mesh;
-	Matrix4f _translation;
+	Matrix4f _transform;
 
 public:
 
-	Renderable(Mesh& mesh, Matrix4f translation = Matrix4f::Translation(0,0,0));
+	Renderable(Mesh& mesh, Matrix4f transform = Matrix4f::Translation(0,0,0));
 	
 	Mesh& getMesh();
-	Matrix4f& getTranslation();
+	Matrix4f& getTransform();
 
 };

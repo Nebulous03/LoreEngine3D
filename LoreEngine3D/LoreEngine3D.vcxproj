@@ -129,7 +129,8 @@
       <BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32s.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -143,6 +144,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -187,7 +189,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\entity\components\RenderableComponent.cpp" />
+    <ClCompile Include="src\entity\components\TextureComponent.cpp" />
+    <ClCompile Include="src\entity\components\UpdateComponent.cpp" />
     <ClCompile Include="src\entity\Entity.cpp" />
+    <ClCompile Include="src\entity\EntityDatabase.cpp" />
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\Scene.cpp" />
     <ClCompile Include="src\graphics\buffers\Buffers.cpp" />
@@ -198,6 +204,7 @@
     <ClCompile Include="src\graphics\Renderer.cpp" />
     <ClCompile Include="src\graphics\SceneLayer.cpp" />
     <ClCompile Include="src\graphics\Shader.cpp" />
+    <ClCompile Include="src\graphics\textures\Texture.cpp" />
     <ClCompile Include="src\graphics\Window.cpp" />
     <ClCompile Include="src\logic\Input.cpp" />
     <ClCompile Include="src\logic\TickHandler.cpp" />
@@ -209,10 +216,16 @@
     <ClCompile Include="src\TestGame.cpp" />
     <ClCompile Include="src\utils\FileUtilities.cpp" />
     <ClCompile Include="src\utils\OBJLoader.cpp" />
+    <ClCompile Include="src\utils\TextureLoader.cpp" />
     <ClCompile Include="src\utils\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\entity\Component.h" />
+    <ClInclude Include="src\entity\components\RenderableComponent.h" />
+    <ClInclude Include="src\entity\components\TextureComponent.h" />
+    <ClInclude Include="src\entity\components\UpdateComponent.h" />
     <ClInclude Include="src\entity\Entity.h" />
+    <ClInclude Include="src\entity\EntityDatabase.h" />
     <ClInclude Include="src\game\Game.h" />
     <ClInclude Include="src\game\Scene.h" />
     <ClInclude Include="src\graphics\buffers\Buffers.h" />
@@ -223,6 +236,7 @@
     <ClInclude Include="src\graphics\Renderer.h" />
     <ClInclude Include="src\graphics\SceneLayer.h" />
     <ClInclude Include="src\graphics\Shader.h" />
+    <ClInclude Include="src\graphics\textures\Texture.h" />
     <ClInclude Include="src\graphics\Window.h" />
     <ClInclude Include="src\logic\Input.h" />
     <ClInclude Include="src\logic\TickHandler.h" />
@@ -236,6 +250,7 @@
     <ClInclude Include="src\utils\FileUtilites.h" />
     <ClInclude Include="src\utils\LoreInfo.h" />
     <ClInclude Include="src\utils\OBJLoader.h" />
+    <ClInclude Include="src\utils\TextureLoader.h" />
     <ClInclude Include="src\utils\Timer.h" />
   </ItemGroup>
   <ItemGroup>

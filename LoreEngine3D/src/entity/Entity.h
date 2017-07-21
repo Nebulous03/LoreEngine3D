@@ -1,6 +1,8 @@
 #pragma once
 #include "../math/Math.h"
 #include "../graphics/Renderable.h"
+#include "Component.h"
+#include <vector>
 
 class Entity
 {
@@ -10,11 +12,16 @@ protected:
 	Vector3f _rotation;
 	Entity*  _parent;
 
-	Renderable* _renderable; // TEMP
+	std::vector<Component*> _components;
+
+	/* TEMP */
+
+	Renderable* _renderable;
 
 public:
 
 	Entity(Renderable& renderable);
+	virtual ~Entity();
 
 	Entity& setPosition(float x, float y, float z);
 	Entity& setPosition(Vector3f position);
@@ -31,5 +38,13 @@ public:
 	void parent(Entity& entity);
 	Entity* getParent();
 
+	void add(Component& component);
+	void remove(Component& component);
+
+	std::vector<Component*>* getComponents();
+
+	/* TEMP */
+	
 	Renderable* getRenderable();
+
 };

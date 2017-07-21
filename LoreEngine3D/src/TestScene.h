@@ -16,10 +16,8 @@ private:
 	Shader* _colorShader;
 	BasicRenderer* _renderer;
 	SceneLayer* _layer;
-	Mesh* _cubeMesh;
-	Mesh* _cubeMesh2;
-	Renderable* _cube;
-	Renderable* _cube2;
+
+	Entity* cubeEntity;
 
 	Timer _timer;
 
