@@ -1,6 +1,9 @@
 #include "TestScene.h"
 #include "graphics\Graphics.h"
 #include "utils\TextureLoader.h"
+#include "entity\EntityDatabase.h"
+#include "entity\components\RenderableComponent.h"
+#include "entity\components\TextureComponent.h"
 #include <GLFW\glfw3.h>
 
 #define LOG_TICK 1
@@ -13,7 +16,7 @@ TestScene::TestScene()
 
 	_layer = new SceneLayer(*_renderer);
 
-	Mesh* _cubeMesh = loadMesh("res/meshs/bunny.obj");	// DOES NOT GET DELETED!
+	Mesh* _cubeMesh = loadMesh("res/meshs/cube.obj");	// DOES NOT GET DELETED!
 
 	Renderable* cube = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, -3.0f));
 	Renderable* cube2 = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 1.0f, 0.0f));
@@ -21,13 +24,15 @@ TestScene::TestScene()
 	Renderable* cube4 = new Renderable(*_cubeMesh, mat4f::Translation(-2.0f, -2.0f, -3.0f));
 
 	Texture* texture = createTexture("crate.png");
-
 	texture->bind();
 
-	cubeEntity = new Entity(*cube);
-	Entity* cubeEntity2 = new Entity(*cube2);
-	Entity* cubeEntity3 = new Entity(*cube3);
-	Entity* cubeEntity4 = new Entity(*cube4);
+	cubeEntity = new Entity();
+	cubeEntity->add(*(new RenderableComponent(*cube)));
+	cubeEntity->add(*(new TextureComponent(*texture)));
+
+	Entity* cubeEntity2 = new Entity();
+	Entity* cubeEntity3 = new Entity();
+	Entity* cubeEntity4 = new Entity();
 
 	cubeEntity2->parent(*cubeEntity);
 	cubeEntity3->parent(*cubeEntity2);

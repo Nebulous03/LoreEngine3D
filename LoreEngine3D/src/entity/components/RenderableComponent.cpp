@@ -1,6 +1,6 @@
 #include "RenderableComponent.h"
 
-RenderableComponent::RenderableComponent(Renderable& renderable) : Component(RENDER_COMPONENT_TYPE_ID), _renderable(&renderable) {}
+RenderableComponent::RenderableComponent(Renderable& renderable) : Component(COMPONENT_TYPE_RENDERABLE), _renderable(&renderable) {}
 
 RenderableComponent::~RenderableComponent()
 {

@@ -2,7 +2,7 @@
 #include "../Component.h"
 #include "../../graphics/Renderable.h"
 
-#define RENDER_COMPONENT_TYPE_ID 2
+#define COMPONENT_TYPE_RENDERABLE 2
 
 class RenderableComponent : public Component
 {

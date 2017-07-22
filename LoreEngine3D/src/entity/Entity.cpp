@@ -1,9 +1,12 @@
 #include "Entity.h"
 
-Entity::Entity(Renderable& renderable) : _renderable(&renderable) {}
+void Entity::link(EntityDatabase* database)
+{
+	_entityDatabase = database;
+}
 
 Entity::~Entity() {
-	delete _renderable;
+	
 }
 
 Entity& Entity::setPosition(float x, float y, float z)
@@ -58,12 +61,30 @@ Entity* Entity::getParent()
 	return _parent;
 }
 
-std::vector<Component*>* Entity::getComponents()
+void Entity::add(Component& component)
 {
-	return &_components;
+	if (_entityDatabase == nullptr)
+		_tempComponents.push_back(&component);
+	else
+		_entityDatabase->addComponent(this, &component);
 }
 
-Renderable* Entity::getRenderable()
+void Entity::remove(Component& component)
 {
-	return _renderable;
+	if (_entityDatabase == nullptr)
+	{
+		auto location = std::find(_tempComponents.begin(), _tempComponents.end(), &component);
+		if (location != _tempComponents.end()) _tempComponents.erase(location);
+	}
+	else
+		_entityDatabase->removeComponent(this, &component);
 }
+
+std::vector<Component*>& Entity::getComponents()
+{
+	if (_entityDatabase == nullptr)
+		return _tempComponents;
+	else 
+		return _entityDatabase->getComponents(this);
+}
+

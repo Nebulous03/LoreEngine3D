@@ -10,7 +10,7 @@ class SceneLayer
 protected:
 
 	BaseRenderer& _renderer;
-	std::vector<Entity*> _entities;
+	EntityDatabase* _entityDatabase;
 
 public:
 
