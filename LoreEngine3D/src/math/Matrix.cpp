@@ -194,6 +194,49 @@ Matrix4f Matrix4f::Rotation(const Vector3f& axis, const float angle)
 	return m;
 }
 
+// YAW, PITCH, ROLL
+Matrix4f Matrix4f::Rotation(const Vector3f& rotation)
+{
+	Matrix4f m = Matrix4f::Identity();
+
+	float cosX = cos(toRadians(rotation.x));
+	float cosY = cos(toRadians(rotation.y));
+	float cosZ = cos(toRadians(rotation.z));
+
+	float sinX = sin(toRadians(rotation.x));
+	float sinY = sin(toRadians(rotation.y));
+	float sinZ = sin(toRadians(rotation.z));
+
+	/*
+	m.elements[0 + 0 * 4] = cosX * cosY;
+	m.elements[1 + 0 * 4] = sinX * sinY;
+	m.elements[2 + 0 * 4] = -sinY;
+
+	m.elements[0 + 1 * 4] = (cosX * sinY * sinZ) - (sinX * cosZ);
+	m.elements[1 + 1 * 4] = (sinX * sinY * sinZ) + (cosX * cosZ);
+	m.elements[2 + 1 * 4] = cosY * sinZ;
+
+	m.elements[0 + 2 * 4] = (cosX * sinY * cosZ) + (sinX * sinZ);
+	m.elements[1 + 2 * 4] = (sinX * sinY * cosZ) - (cosX * sinZ);
+	m.elements[2 + 2 * 4] = cosY * cosZ;
+	*/
+
+
+	m.elements[0 + 0 * 4] = cosY * cosZ;
+	m.elements[1 + 0 * 4] = sinZ;
+	m.elements[2 + 0 * 4] = -sinY;
+
+	m.elements[0 + 1 * 4] = -sinZ;
+	m.elements[1 + 1 * 4] = cosX * cosZ;
+	m.elements[2 + 1 * 4] = sinX;
+
+	m.elements[0 + 2 * 4] = sinY;
+	m.elements[1 + 2 * 4] = -sinX;
+	m.elements[2 + 2 * 4] = cosX * cosY;
+
+	return m;
+}
+
 Matrix4f Matrix4f::Scale(const Vector3f& scale)
 {
 	Matrix4f m = Matrix4f::Identity();

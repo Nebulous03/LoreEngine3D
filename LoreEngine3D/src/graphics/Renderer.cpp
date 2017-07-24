@@ -76,6 +76,25 @@ void BasicRenderer::flush()
 			renderable->getMesh().getVAO()->unbind();
 			break;
 		}
+		case ACTION_RENDER_LINES:
+		{
+			Renderable* renderable = (Renderable*)action->data;
+			renderable->getMesh().getVAO()->bind();
+			renderable->getMesh().getIBO()->bind();
+			renderable->getMesh().getTBO()->bind();
+
+			_lastTransform = &_transformStack.back();
+			_shader.setUniform("model", renderable->getTransform() * *_lastTransform);
+			_shader.setUniform("projection", _camera.getProjection());
+			_shader.setUniform("view", _camera.getView());
+
+			glDrawElements(GL_LINES, renderable->getMesh().getIBO()->getSize(), GL_UNSIGNED_SHORT, nullptr);
+
+			renderable->getMesh().getTBO()->unbind();
+			renderable->getMesh().getIBO()->unbind();
+			renderable->getMesh().getVAO()->unbind();
+			break;
+		}
 		case ACTION_PUSH_TRANSFORM:
 		{
 			pushTransform(*((Matrix4f*)(action->data)), false);

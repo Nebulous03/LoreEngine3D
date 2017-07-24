@@ -7,7 +7,19 @@
 #define NEAR_PLANE	0.0001f
 #define FAR_PLANE	1000.0f
 
-#define DEFAULT_FOV 90.0f
+#define DEFAULT_FOV		90.0f
+#define DEFAULT_PITCH	0.0f
+#define DEFAULT_YAW		0.0f
+#define DEFAULT_ROLL	0.0f
+
+enum CameraDirection {
+	FORWARD,
+	BACKWARD,
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+};
 
 class Camera
 {
@@ -18,6 +30,10 @@ protected:
 
 	Vector3f _position;
 	Vector3f _rotation;
+
+	Vector3f _upDirection;
+	Vector3f _rightDirection;
+	Vector3f _forwardDirection;
 
 	float _fov;
 
@@ -33,18 +49,24 @@ public:
 	Camera& resize(const float width, const float height);
 
 	Camera& move(const Vector3f& direction, const float speed);
-	//Camera& move(Vector3f angle, float delta);
+	Camera& move(CameraDirection direction, const float speed);
 
-	Camera& rotate(const Vector3f& axis, const float degrees);
+	Camera& rotate(const Vector3f& rotation, const float speed);
 
-	Vector3f& getPosition();
+	const Vector3f& getPosition();
+	const Vector3f& getRotation();
+
 	Camera& setPosition(const Vector3f pos);
 
 	float getFOV() const;
 	Camera& setFOV(const float fov);
 
-	Matrix4f& getProjection();
-	Matrix4f& getView();
+	const Matrix4f& getProjection();
+	const Matrix4f& getView();
+
+	const Vector3f getUp();
+	const Vector3f getForward();
+	const Vector3f getRight();
 
 	uint getProjectionType() const;
 

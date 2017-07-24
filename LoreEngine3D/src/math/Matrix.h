@@ -57,6 +57,7 @@ struct Matrix4f {
 	static Matrix4f Identity();
 	static Matrix4f Translation(const Vector3f& pos);
 	static Matrix4f Rotation(const Vector3f& axis, const float angle);
+	static Matrix4f Rotation(const Vector3f& rotation);
 	static Matrix4f Scale(const Vector3f& scale);
 
 	static Matrix4f Translation(const float x, const float y, const float z);

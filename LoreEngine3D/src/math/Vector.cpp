@@ -184,6 +184,14 @@ Vector3f& Vector3f::add(const Vector3f& other)
 	return *this;
 }
 
+Vector3f& Vector3f::add(const float num)
+{
+	x = x + num;
+	y = y + num;
+	z = z + num;
+	return *this;
+}
+
 Vector3f& Vector3f::sub(const float otherX, const float otherY, const float otherZ)
 {
 	x = x - otherX;
@@ -205,6 +213,14 @@ Vector3f& Vector3f::sub(const Vector3f& other)
 	x = x - other.x;
 	y = y - other.y;
 	z = z - other.z;
+	return *this;
+}
+
+Vector3f& Vector3f::sub(const float num)
+{
+	x = x - num;
+	y = y - num;
+	z = z - num;
 	return *this;
 }
 
@@ -232,6 +248,14 @@ Vector3f& Vector3f::mul(const Vector3f& other)
 	return *this;
 }
 
+Vector3f& Vector3f::mul(const float num)
+{
+	x = x * num;
+	y = y * num;
+	z = z * num;
+	return *this;
+}
+
 Vector3f& Vector3f::div(const float otherX, const float otherY, const float otherZ)
 {
 	x = x / otherX;
@@ -256,9 +280,43 @@ Vector3f& Vector3f::div(const Vector3f& other)
 	return *this;
 }
 
+Vector3f& Vector3f::div(const float num)
+{
+	x = x / num;
+	y = y / num;
+	z = z / num;
+	return *this;
+}
+
+Vector3f& Vector3f::normalize()
+{
+	return div(magnitude());
+}
+
+Vector3f Vector3f::normalize(const Vector3f& vec3f)
+{
+	Vector3f result = vec3f;
+	return result.normalize();	// Not great...
+}
+
+Vector3f Vector3f::cross(const Vector3f& vec3f, const Vector3f& other)
+{
+	return Vector3f
+	(
+		(vec3f.y * other.z) - (vec3f.z * other.y),
+		(vec3f.z * other.x) - (vec3f.x * other.z),
+		(vec3f.x * other.y) - (vec3f.y * other.x)
+	);
+}
+
 Vector2f Vector3f::xy()
 {
 	return Vector2f(x, y);
+}
+
+float Vector3f::magnitude()
+{
+	return (float)(sqrt((x * x) + (y * y) + (z * z)));
 }
 
 Vector3f operator+(Vector3f first, const Vector3f& second)

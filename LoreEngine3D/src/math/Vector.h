@@ -54,17 +54,28 @@ struct Vector3f {
 	Vector3f& add(const float otherX, const float otherY, const float otherZ);
 	Vector3f& add(const Vector3f& other, Vector3f& dest);
 	Vector3f& add(const Vector3f& other);
+	Vector3f& add(const float num);
 	Vector3f& sub(const float otherX, const float otherY, const float otherZ);
 	Vector3f& sub(const Vector3f& other, Vector3f& dest);
 	Vector3f& sub(const Vector3f& other);
+	Vector3f& sub(const float num);
 	Vector3f& mul(const float otherX, const float otherY, const float otherZ);
 	Vector3f& mul(const Vector3f& other, Vector3f& dest);
 	Vector3f& mul(const Vector3f& other);
+	Vector3f& mul(const float num);
 	Vector3f& div(const float otherX, const float otherY, const float otherZ);
 	Vector3f& div(const Vector3f& other, Vector3f& dest);
 	Vector3f& div(const Vector3f& other);
+	Vector3f& div(const float num);
+
+	Vector3f& normalize();
+
+	static Vector3f normalize(const Vector3f& vec3f);
+	static Vector3f cross(const Vector3f& vec3f, const Vector3f& other);
 
 	Vector2f xy();
+
+	float magnitude();
 
 	friend Vector3f operator+(Vector3f first, const Vector3f& second);
 	friend Vector3f operator-(Vector3f first, const Vector3f& second);

@@ -19,7 +19,7 @@ TestScene::TestScene()
 	Mesh* _cubeMesh = loadMesh("res/meshs/cube.obj");	// DOES NOT GET DELETED!
 
 	Renderable* cube = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, -3.0f));
-	Renderable* cube2 = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 1.0f, 0.0f));
+	Renderable* cube2 = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, 0.0f));
 	Renderable* cube3 = new Renderable(*_cubeMesh, mat4f::Translation(-2.0f, -2.0f, 0.0f));
 	Renderable* cube4 = new Renderable(*_cubeMesh, mat4f::Translation(-2.0f, -2.0f, -3.0f));
 
@@ -31,14 +31,14 @@ TestScene::TestScene()
 	cubeEntity->add(*(new TextureComponent(*texture)));
 
 	Entity* cubeEntity2 = new Entity();
+	cubeEntity2->add(*(new RenderableComponent(*cube)));
+	cubeEntity2->add(*(new TextureComponent(*texture)));
+
 	Entity* cubeEntity3 = new Entity();
 	Entity* cubeEntity4 = new Entity();
 
-	cubeEntity2->parent(*cubeEntity);
-	cubeEntity3->parent(*cubeEntity2);
-
 	_layer->add(*cubeEntity);
-	//_layer->add(*cubeEntity2);
+	_layer->add(*cubeEntity2);
 	//_layer->add(*cubeEntity3);
 	//_layer->add(*cubeEntity4);
 }
@@ -59,7 +59,7 @@ void resizeCallback(Window& window, int width, int height)
 void TestScene::onLoad(Game& game)
 {
 	game.getTickHandler().setTPSLimit(10.0);
-	//_camera->resize(1920.0f, 1080.0f);
+	_camera->resize(1920.0f, 1080.0f);
 	//game.getGraphics().setDisplay(WINDOWED, 1920, 1080);
 	game.getActiveWindow().setResizeCallback(resizeCallback);
 }
@@ -76,32 +76,82 @@ void TestScene::onTick(Game& game, double delta)
 		game.getTickHandler().getFPS(), delta, 
 		game.getTickHandler().getRenderTime());
 #endif
+	std::cout << "Cam Pos: " << _camera->getPosition() << std::endl;
+	std::cout << "Cam Rot: " << _camera->getRotation() << std::endl;
+	std::cout << "Cam Fwd: " << _camera->getForward() << std::endl;
+	std::cout << "Cam Up : " << _camera->getUp() << std::endl;
+	std::cout << "Cam Rgt: " << _camera->getRight() << std::endl;
 }
+
+static float lastX = 0;
+static float lastY = 0;
+static float currentX = 0;
+static float currentY = 0;
+
+static bool captured = false;
 
 void TestScene::onUpdate(Game& game, double delta)
 {
+	lastX = currentX;
+	lastY = currentY;
+	currentX = (float)Input::getMouseX();
+	currentY = (float)Input::getMoustY();
 
-	//cubeEntity->getRenderable()->pushTransform(Matrix4f::Translation(2 * (float)Input::getMouseX() / game.getActiveWindow().getWidth(),
-	//		2 * -(float)Input::getMoustY() / game.getActiveWindow().getHeight(), -3.0f));
+	float xOffset = lastX - currentX;
+	float yOffset = lastY - currentY;
+
+	float sensitivity = 0.3f;
+
+	if (captured) _camera->rotate(vec3f(-yOffset * sensitivity, -xOffset * sensitivity, 0), 1.0f);
+
+	if (Input::isButtonPressed(GLFW_MOUSE_BUTTON_1)) {
+		glfwSetInputMode(game.getActiveWindow().getGLWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		captured = true;
+	}
+
+	if (Input::isKeyPressed(GLFW_KEY_ESCAPE)) {
+		glfwSetInputMode(game.getActiveWindow().getGLWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		captured = false;
+	}
+
+	if (Input::isKeyPressed(GLFW_KEY_W))
+	{
+		_camera->move(vec3f(0, 0, 1), (float)delta * 1.0f);
+	}
+
+	if (Input::isKeyPressed(GLFW_KEY_A))
+	{
+		_camera->move(vec3f(1, 0, 0), (float)delta * 1.0f);
+	}
+
+	if (Input::isKeyPressed(GLFW_KEY_S))
+	{
+		_camera->move(vec3f(0, 0, 1), (float)delta * -1.0f);
+	}
+
+	if (Input::isKeyPressed(GLFW_KEY_D))
+	{
+		_camera->move(vec3f(1, 0, 0), (float)delta * -1.0f);
+	}
 
 	if (Input::isKeyPressed(GLFW_KEY_Q))
 	{
-		_camera->rotate(vec3f(0, 1, 0), (float)delta * 0.25f);
+		_camera->rotate(vec3f(0.0f, 1.0f, 0.0f), (float)delta * 24.0f);
 	}
 
 	if (Input::isKeyPressed(GLFW_KEY_E))
 	{
-		_camera->rotate(vec3f(0, 1, 0), (float)delta * -0.25f);
+		_camera->rotate(vec3f(0.0f, 1.0f, 0.0f), (float)delta * -24.0f);
 	}
 
 	if (Input::isKeyPressed(GLFW_KEY_Z))
 	{
-		_camera->rotate(vec3f(1, 0, 0), (float)delta * 0.25f);
+		_camera->rotate(vec3f(1, 0, 0), (float)delta * 24.0f);
 	}
 
 	if (Input::isKeyPressed(GLFW_KEY_X))
 	{
-		_camera->rotate(vec3f(1, 0, 0), (float)delta * -0.25f);
+		_camera->rotate(vec3f(1, 0, 0), (float)delta * -24.0f);
 	}
 
 	if (Input::isKeyPressed(GLFW_KEY_UP))
@@ -122,26 +172,6 @@ void TestScene::onUpdate(Game& game, double delta)
 	if (Input::isKeyPressed(GLFW_KEY_RIGHT))
 	{
 		_camera->move(vec3f(1, 0, 0), (float)delta * 1.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_G))
-	{
-		_camera->move(vec3f(0, 0, -1), (float)delta * 1.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_H))
-	{
-		_camera->move(vec3f(0, 0, 1), (float)delta * 1.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_Q))
-	{
-
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_E))
-	{
-
 	}
 
 }
