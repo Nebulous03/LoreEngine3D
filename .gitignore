@@ -4,10 +4,6 @@
 # LoreEngine ignores
 Libraries/
 
-# Dont ignore
-!meshes/*.obj
-!libs/*
-
 # User-specific files
 *.suo
 *.user
@@ -217,3 +213,7 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+
+# Dont ignore
+!meshes/*.obj
+!libs/*
