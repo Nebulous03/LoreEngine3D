@@ -8,16 +8,15 @@
 class Input
 {
 private:
-	Window* _window;
+	static Window* _window;
 	static bool _keys[MAX_KEYS];
 	static bool _buttons[MAX_KEYS];
 	static double _mx, _my;
+	static bool _mouseCaptured;
 
 public:
 	Input(Window& window);
 	void init();
-
-	void update();
 
 	static bool isKeyPressed(uint keyCode);
 	static bool isKeyHeld(uint keyCode);
@@ -31,6 +30,11 @@ public:
 	static double getMoustY();
 
 	static vec2f getMousePos();
+
+	static void captureMouse();
+	static void releaseMouse();
+
+	static bool isMouseCaptured();
 
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void button_callback(GLFWwindow* window, int button, int action, int mods);

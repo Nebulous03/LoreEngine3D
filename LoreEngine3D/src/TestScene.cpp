@@ -16,7 +16,7 @@ TestScene::TestScene()
 
 	_layer = new SceneLayer(*_renderer);
 
-	Mesh* _cubeMesh = loadMesh("res/meshs/bunny.obj");	// DOES NOT GET DELETED!
+	Mesh* _cubeMesh = loadMesh("res/meshs/cube.obj");	// DOES NOT GET DELETED!
 
 	Renderable* cube = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, -3.0f));
 	Renderable* cube2 = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, 0.0f));
@@ -76,19 +76,12 @@ void TestScene::onTick(Game& game, double delta)
 		game.getTickHandler().getFPS(), delta, 
 		game.getTickHandler().getRenderTime());
 #endif
-	std::cout << "Cam Pos: " << _camera->getPosition() << std::endl;
-	std::cout << "Cam Rot: " << _camera->getRotation() << std::endl;
-	std::cout << "Cam Fwd: " << _camera->getForward() << std::endl;
-	std::cout << "Cam Up : " << _camera->getUp() << std::endl;
-	std::cout << "Cam Rgt: " << _camera->getRight() << std::endl;
 }
 
 static float lastX = 0;
 static float lastY = 0;
 static float currentX = 0;
 static float currentY = 0;
-
-static bool captured = false;
 
 void TestScene::onUpdate(Game& game, double delta)
 {
@@ -102,87 +95,27 @@ void TestScene::onUpdate(Game& game, double delta)
 
 	float sensitivity = 0.2f;
 
-	if (captured) _camera->rotate(vec3f(-yOffset * sensitivity, -xOffset * sensitivity, 0), 1.0f);
+	float cameraSpeed = (float)delta * 1.2f;
 
-	if (Input::isKeyPressed(GLFW_KEY_U))
-	{
-		_camera->rotate(vec3f(0.005f, 0, 0), 1.0f);
-	}
+	if (Input::isMouseCaptured()) _camera->rotate(vec3f(-yOffset * sensitivity, -xOffset * sensitivity, 0), 1.0f);
 
-	if (Input::isKeyPressed(GLFW_KEY_J))
-	{
-		_camera->rotate(vec3f(-0.005f, 0, 0), 1.0f);
-	}
+	// Caputre Mouse
+	if (Input::isButtonPressed(GLFW_MOUSE_BUTTON_1)) { Input::captureMouse(); }
+	if (Input::isKeyPressed(GLFW_KEY_ESCAPE)) { Input::releaseMouse(); }
 
-	if (Input::isButtonPressed(GLFW_MOUSE_BUTTON_1)) {
-		glfwSetInputMode(game.getActiveWindow().getGLWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		captured = true;
-	}
+	// Movement
+	if (Input::isKeyPressed(GLFW_KEY_W)) { _camera->move(_camera->getForward(), cameraSpeed); }
+	if (Input::isKeyPressed(GLFW_KEY_S)) { _camera->move(_camera->getForward(), -cameraSpeed); }
+	if (Input::isKeyPressed(GLFW_KEY_A)) { _camera->move(_camera->getRight(), -cameraSpeed); }
+	if (Input::isKeyPressed(GLFW_KEY_D)) { _camera->move(_camera->getRight(), cameraSpeed); }
 
-	if (Input::isKeyPressed(GLFW_KEY_ESCAPE)) {
-		glfwSetInputMode(game.getActiveWindow().getGLWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		captured = false;
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_W))
-	{
-		_camera->move(_camera->getForward(), (float)delta * 1.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_A))
-	{
-		_camera->move(_camera->getRight(), (float)delta * -1.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_S))
-	{
-		_camera->move(_camera->getForward(), (float)delta * -1.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_D))
-	{
-		_camera->move(_camera->getRight(), (float)delta * 1.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_Q))
-	{
-		_camera->rotate(vec3f(0.0f, 1.0f, 0.0f), (float)delta * 24.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_E))
-	{
-		_camera->rotate(vec3f(0.0f, 1.0f, 0.0f), (float)delta * -24.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_Z))
-	{
-		_camera->rotate(vec3f(1, 0, 0), (float)delta * 24.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_X))
-	{
-		_camera->rotate(vec3f(1, 0, 0), (float)delta * -24.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_UP))
-	{
-		_camera->move(vec3f(0, 1, 0), (float)delta * 1.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_DOWN))
-	{
-		_camera->move(vec3f(0, -1, 0), (float)delta * 1.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_LEFT))
-	{
-		_camera->move(vec3f(-1, 0, 0), (float)delta * 1.0f);
-	}
-
-	if (Input::isKeyPressed(GLFW_KEY_RIGHT))
-	{
-		_camera->move(vec3f(1, 0, 0), (float)delta * 1.0f);
-	}
+	// Movement 2
+	if (Input::isKeyPressed(GLFW_KEY_UP)) { _camera->move(vec3f(0, 1, 0), cameraSpeed); }
+	if (Input::isKeyPressed(GLFW_KEY_DOWN)) { _camera->move(vec3f(0, -1, 0), cameraSpeed); }
+	if (Input::isKeyPressed(GLFW_KEY_LEFT)) { _camera->move(vec3f(-1, 0, 0), cameraSpeed);  }
+	if (Input::isKeyPressed(GLFW_KEY_RIGHT)) { _camera->move(vec3f(1, 0, 0), cameraSpeed); }
+	if (Input::isKeyPressed(GLFW_KEY_G)) { _camera->move(vec3f(0, 0, 1), cameraSpeed); }
+	if (Input::isKeyPressed(GLFW_KEY_H)) { _camera->move(vec3f(0, 0, -1), cameraSpeed); }
 
 }
 

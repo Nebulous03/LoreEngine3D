@@ -53,9 +53,6 @@ void TickHandler::tick(double delta)
 
 void TickHandler::update(double delta)
 {
-	// INPUT
-	_game->getInput().update();
-
 	// Update
 	_game->onUpdate();
 	_game->getActiveScene().onUpdate(*_game, delta);	// MOVE TO GAME

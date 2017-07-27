@@ -75,28 +75,3 @@ struct Matrix4f {
 	friend std::ostream& operator<<(std::ostream& stream, const Matrix4f& matrix4f);
 
 };
-
-struct Quaternion
-{
-	float x;
-	float y;
-	float z;
-	float w;
-
-	Quaternion(const float x, const float y, const float z, const float w);
-
-	Quaternion& mul(float num);
-	Quaternion& mul(const Quaternion& other);
-	Quaternion& mul(const Vector3f& other);
-
-	Quaternion& sub(const Quaternion& other);
-	Quaternion& add(const Quaternion& other);
-
-	static float dot(const Quaternion& quat, const Quaternion& other);
-
-	Quaternion& normalize();
-	
-	static Quaternion conjugate(const Quaternion& quat);
-
-	float length();
-};
