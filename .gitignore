@@ -4,8 +4,9 @@
 # LoreEngine ignores
 Libraries/
 
-# Dont ignore meshes
+# Dont ignore
 !meshes/*.obj
+!libs/*
 
 # User-specific files
 *.suo
