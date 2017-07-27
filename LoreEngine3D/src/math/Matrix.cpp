@@ -207,32 +207,17 @@ Matrix4f Matrix4f::Rotation(const Vector3f& rotation)
 	float sinY = sin(toRadians(rotation.y));
 	float sinZ = sin(toRadians(rotation.z));
 
-	/*
-	m.elements[0 + 0 * 4] = cosX * cosY;
-	m.elements[1 + 0 * 4] = sinX * sinY;
-	m.elements[2 + 0 * 4] = -sinY;
-
-	m.elements[0 + 1 * 4] = (cosX * sinY * sinZ) - (sinX * cosZ);
-	m.elements[1 + 1 * 4] = (sinX * sinY * sinZ) + (cosX * cosZ);
-	m.elements[2 + 1 * 4] = cosY * sinZ;
-
-	m.elements[0 + 2 * 4] = (cosX * sinY * cosZ) + (sinX * sinZ);
-	m.elements[1 + 2 * 4] = (sinX * sinY * cosZ) - (cosX * sinZ);
-	m.elements[2 + 2 * 4] = cosY * cosZ;
-	*/
-
-
 	m.elements[0 + 0 * 4] = cosY * cosZ;
-	m.elements[1 + 0 * 4] = sinZ;
-	m.elements[2 + 0 * 4] = -sinY;
+	m.elements[1 + 0 * 4] = (sinX * sinY * cosZ) + (cosX * sinZ);
+	m.elements[2 + 0 * 4] = -(cosX * sinY * cosZ) + (sinX * sinZ);
 
-	m.elements[0 + 1 * 4] = -sinZ;
-	m.elements[1 + 1 * 4] = cosX * cosZ;
-	m.elements[2 + 1 * 4] = sinX;
+	m.elements[0 + 1 * 4] = -(cosY * sinZ);
+	m.elements[1 + 1 * 4] = -(sinX * sinY * sinZ) + (cosX * cosZ);
+	m.elements[2 + 1 * 4] = (cosX * sinY * sinZ) + (sinX * cosZ);
 
 	m.elements[0 + 2 * 4] = sinY;
-	m.elements[1 + 2 * 4] = -sinX;
-	m.elements[2 + 2 * 4] = cosX * cosY;
+	m.elements[1 + 2 * 4] = -(sinX * cosY);
+	m.elements[2 + 2 * 4] = (cosX * cosY);
 
 	return m;
 }
@@ -255,6 +240,32 @@ Matrix4f Matrix4f::Translation(const float x, const float y, const float z)
 	return m;
 }
 
+Matrix4f Matrix4f::LookAt(const Vector3f& position, const Vector3f& origin, const Vector3f& up)
+{
+	Matrix4f m = Matrix4f::Identity();
+
+	Vector3f zaxis = Vector3f::normalize(origin - position);
+	Vector3f xaxis = Vector3f::normalize(Vector3f::cross(up, zaxis));
+	Vector3f yaxis = Vector3f::cross(zaxis, xaxis);
+
+	m.elements[0 + 0 * 4] = xaxis.x;
+	m.elements[1 + 0 * 4] = xaxis.y;
+	m.elements[2 + 0 * 4] = xaxis.z;
+	m.elements[3 + 0 * 4] = -Vector3f::dot(xaxis, position);
+
+	m.elements[0 + 1 * 4] = yaxis.x;
+	m.elements[1 + 1 * 4] = yaxis.y;
+	m.elements[2 + 1 * 4] = yaxis.z;
+	m.elements[3 + 1 * 4] = -Vector3f::dot(yaxis, position);
+
+	m.elements[0 + 2 * 4] = zaxis.x;
+	m.elements[1 + 2 * 4] = zaxis.y;
+	m.elements[2 + 2 * 4] = zaxis.z;
+	m.elements[3 + 3 * 4] = -Vector3f::dot(zaxis, position);
+
+	return m;
+}
+
 Matrix4f Matrix4f::Scale(const float sx, const float sy, const float sz)
 {
 	Matrix4f m = Matrix4f::Identity();
@@ -262,6 +273,16 @@ Matrix4f Matrix4f::Scale(const float sx, const float sy, const float sz)
 	m.elements[1 + 1 * 4] = sy;
 	m.elements[2 + 2 * 4] = sz;
 	return m;
+}
+
+Vector3f Matrix4f::getTranslationVec3f()
+{
+	return Vector3f(elements[0 + 3 * 4], elements[1 + 3 * 4], elements[2 + 3 * 4]);
+}
+
+Vector3f Matrix4f::getRotationVec3f()
+{
+	return Vector3f(elements[0 + 3 * 4], elements[1 + 3 * 4], elements[2 + 3 * 4]); // WRONG!!!
 }
 
 bool Matrix4f::operator==(const Matrix4f& other)
@@ -290,8 +311,91 @@ float& Matrix4f::operator[](const int i)
 std::ostream& operator<<(std::ostream& stream, const Matrix4f& matrix4f)
 {
 	stream << "[";
-	for (int i = 0; i < (sizeof(matrix4f.elements) / sizeof(matrix4f.elements[0])) - 1; i++)
+	for (int i = 0; i < (sizeof(matrix4f.elements) / sizeof(matrix4f.elements[0])) - 1; i++) {
 		stream << matrix4f.elements[i] << ", ";
+		if (i % 4 == 3) stream << "\n ";
+	}
 	stream << matrix4f.elements[(sizeof(matrix4f.elements) / sizeof(matrix4f.elements[0])) - 1] << "]";
 	return stream;
+}
+
+ /* QUATERNION */
+
+Quaternion::Quaternion(const float x, const float y, const float z, const float w) :
+	x(x), y(y), z(z), w(w) {}
+
+Quaternion& Quaternion::normalize()
+{
+	float len = length();
+
+	x /= len;
+	y /= len;
+	z /= len;
+	w /= len;
+
+	return *this;
+}
+
+Quaternion& Quaternion::mul(float num)
+{
+	x *= num;
+	y *= num;
+	z *= num;
+	w *= num;
+	return *this;
+}
+
+Quaternion& Quaternion::mul(const Quaternion& other)
+{
+	x = x * other.w + w * other.x + y * other.z - z * other.y;
+	y = y * other.w + w * other.y + z * other.x - x * other.z;
+	z = z * other.w + w * other.z + x * other.y - y * other.x;
+	w = w * other.w - x * other.x - y * other.y - z * other.z;
+
+	return *this;
+}
+
+Quaternion& Quaternion::mul(const Vector3f& other)
+{
+	float w_ = -x * other.x - y * other.y - z * other.z;
+	float x_ = w * other.x + y * other.z - z * other.y;
+	float y_ = w * other.y + z * other.x - x * other.z;
+	float z_ = w * other.z + x * other.y - y * other.x;
+
+	return *this;
+}
+
+Quaternion& Quaternion::sub(const Quaternion& other)
+{
+	x -= other.x;
+	y -= other.y;
+	z -= other.z;
+	w -= other.z;
+
+	return *this;
+}
+
+Quaternion& Quaternion::add(const Quaternion& other)
+{
+	x += other.x;
+	y += other.y;
+	z += other.z;
+	w += other.z;
+
+	return *this;
+}
+
+float Quaternion::dot(const Quaternion& quat, const Quaternion& other)
+{
+	return quat.x * other.x + quat.y * other.y + quat.z * other.z + quat.w * other.w;
+}
+
+Quaternion Quaternion::conjugate(const Quaternion& quat)
+{
+	return Quaternion(-quat.x, -quat.y, -quat.z, quat.w);
+}
+
+float Quaternion::length()
+{
+	return sqrt(x * x + y * y + z * z + w * w);
 }

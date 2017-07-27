@@ -24,6 +24,8 @@ struct Vector2f {
 	Vector2f& div(const Vector2f& other, Vector2f& dest);
 	Vector2f& div(const Vector2f& other);
 
+	static float dot(const Vector2f& vec3f, const Vector2f& other);
+
 	friend Vector2f operator+(Vector2f first, const Vector2f& second);
 	friend Vector2f operator-(Vector2f first, const Vector2f& second);
 	friend Vector2f operator*(Vector2f first, const Vector2f& second);
@@ -72,6 +74,9 @@ struct Vector3f {
 
 	static Vector3f normalize(const Vector3f& vec3f);
 	static Vector3f cross(const Vector3f& vec3f, const Vector3f& other);
+	static float dot(const Vector3f& vec3f, const Vector3f& other);
+
+	Vector3f& rotate(const Vector3f& axis, const float angle);
 
 	Vector2f xy();
 

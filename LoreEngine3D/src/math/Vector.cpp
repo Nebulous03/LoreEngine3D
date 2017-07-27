@@ -1,5 +1,7 @@
 #include "Vector.h"
-
+#include "Functions.h"
+#include "Matrix.h"
+#include <math.h>
 
 /* ----------- Vector2f ----------- */
 
@@ -92,6 +94,11 @@ Vector2f& Vector2f::div(const Vector2f& other)
 	x = x / other.x;
 	y = y / other.y;
 	return *this;
+}
+
+float Vector2f::dot(const Vector2f& vec3f, const Vector2f& other)
+{
+	return (vec3f.x * other.x) + (vec3f.y * other.y);
 }
 
 Vector2f operator+(Vector2f first, const Vector2f& second)
@@ -307,6 +314,32 @@ Vector3f Vector3f::cross(const Vector3f& vec3f, const Vector3f& other)
 		(vec3f.z * other.x) - (vec3f.x * other.z),
 		(vec3f.x * other.y) - (vec3f.y * other.x)
 	);
+}
+
+float Vector3f::dot(const Vector3f& vec3f, const Vector3f& other)
+{
+	return (vec3f.x * other.x) + (vec3f.y * other.y) + (vec3f.z * other.z);
+}
+
+Vector3f& Vector3f::rotate(const Vector3f& axis, const float angle)
+{
+	float halfAngleSin = sin(toRadians(angle / 2.0f));
+	float halfAngleCos = cos(toRadians(angle / 2.0f));
+
+	Quaternion rotation (
+		axis.x * halfAngleSin,
+		axis.y * halfAngleSin, 
+		axis.z * halfAngleSin, 
+		halfAngleCos
+	);
+
+	Quaternion result = rotation.mul(*this).mul(Quaternion::conjugate(rotation));
+
+	x = rotation.x;
+	y = rotation.y;
+	z = rotation.z;
+
+	return *this;
 }
 
 Vector2f Vector3f::xy()

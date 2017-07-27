@@ -58,15 +58,45 @@ struct Matrix4f {
 	static Matrix4f Translation(const Vector3f& pos);
 	static Matrix4f Rotation(const Vector3f& axis, const float angle);
 	static Matrix4f Rotation(const Vector3f& rotation);
+	static Matrix4f LookAt(const Vector3f& position, const Vector3f& origin, const Vector3f& up);
 	static Matrix4f Scale(const Vector3f& scale);
 
 	static Matrix4f Translation(const float x, const float y, const float z);
 	static Matrix4f Scale(const float sx, const float sy, const float sz);
 
+	Vector3f getTranslationVec3f();
+	Vector3f getRotationVec3f();
+
 	bool operator==(const Matrix4f& other);
 	bool operator!=(const Matrix4f& other);
 
 	float& operator[](const int i);
+
 	friend std::ostream& operator<<(std::ostream& stream, const Matrix4f& matrix4f);
 
+};
+
+struct Quaternion
+{
+	float x;
+	float y;
+	float z;
+	float w;
+
+	Quaternion(const float x, const float y, const float z, const float w);
+
+	Quaternion& mul(float num);
+	Quaternion& mul(const Quaternion& other);
+	Quaternion& mul(const Vector3f& other);
+
+	Quaternion& sub(const Quaternion& other);
+	Quaternion& add(const Quaternion& other);
+
+	static float dot(const Quaternion& quat, const Quaternion& other);
+
+	Quaternion& normalize();
+	
+	static Quaternion conjugate(const Quaternion& quat);
+
+	float length();
 };

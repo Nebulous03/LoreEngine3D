@@ -10,13 +10,13 @@
 
 TestScene::TestScene()
 {
-	_camera = new Camera(vec3f(0, 0, 0), CAMERA_PERSPECTIVE, 640.0f, 480.0f);
+	_camera = new Camera(vec3f(0.0f, 0.0f, 0.0f), vec3f(0.0f, 0.0f, 0.0f), CAMERA_PERSPECTIVE, 640.0f, 480.0f);
 	_colorShader = new Shader("res/shaders/default.vs", "res/shaders/default.fs");
 	_renderer = new BasicRenderer(*_colorShader, *_camera);
 
 	_layer = new SceneLayer(*_renderer);
 
-	Mesh* _cubeMesh = loadMesh("res/meshs/cube.obj");	// DOES NOT GET DELETED!
+	Mesh* _cubeMesh = loadMesh("res/meshs/bunny.obj");	// DOES NOT GET DELETED!
 
 	Renderable* cube = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, -3.0f));
 	Renderable* cube2 = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, 0.0f));
@@ -38,7 +38,7 @@ TestScene::TestScene()
 	Entity* cubeEntity4 = new Entity();
 
 	_layer->add(*cubeEntity);
-	_layer->add(*cubeEntity2);
+	//_layer->add(*cubeEntity2);
 	//_layer->add(*cubeEntity3);
 	//_layer->add(*cubeEntity4);
 }
@@ -100,9 +100,19 @@ void TestScene::onUpdate(Game& game, double delta)
 	float xOffset = lastX - currentX;
 	float yOffset = lastY - currentY;
 
-	float sensitivity = 0.3f;
+	float sensitivity = 0.2f;
 
 	if (captured) _camera->rotate(vec3f(-yOffset * sensitivity, -xOffset * sensitivity, 0), 1.0f);
+
+	if (Input::isKeyPressed(GLFW_KEY_U))
+	{
+		_camera->rotate(vec3f(0.005f, 0, 0), 1.0f);
+	}
+
+	if (Input::isKeyPressed(GLFW_KEY_J))
+	{
+		_camera->rotate(vec3f(-0.005f, 0, 0), 1.0f);
+	}
 
 	if (Input::isButtonPressed(GLFW_MOUSE_BUTTON_1)) {
 		glfwSetInputMode(game.getActiveWindow().getGLWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -116,22 +126,22 @@ void TestScene::onUpdate(Game& game, double delta)
 
 	if (Input::isKeyPressed(GLFW_KEY_W))
 	{
-		_camera->move(vec3f(0, 0, 1), (float)delta * 1.0f);
+		_camera->move(_camera->getForward(), (float)delta * 1.0f);
 	}
 
 	if (Input::isKeyPressed(GLFW_KEY_A))
 	{
-		_camera->move(vec3f(1, 0, 0), (float)delta * 1.0f);
+		_camera->move(_camera->getRight(), (float)delta * -1.0f);
 	}
 
 	if (Input::isKeyPressed(GLFW_KEY_S))
 	{
-		_camera->move(vec3f(0, 0, 1), (float)delta * -1.0f);
+		_camera->move(_camera->getForward(), (float)delta * -1.0f);
 	}
 
 	if (Input::isKeyPressed(GLFW_KEY_D))
 	{
-		_camera->move(vec3f(1, 0, 0), (float)delta * -1.0f);
+		_camera->move(_camera->getRight(), (float)delta * 1.0f);
 	}
 
 	if (Input::isKeyPressed(GLFW_KEY_Q))
