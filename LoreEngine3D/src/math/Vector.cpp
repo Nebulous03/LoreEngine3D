@@ -321,27 +321,6 @@ float Vector3f::dot(const Vector3f& vec3f, const Vector3f& other)
 	return (vec3f.x * other.x) + (vec3f.y * other.y) + (vec3f.z * other.z);
 }
 
-Vector3f& Vector3f::rotate(const Vector3f& axis, const float angle)
-{
-	float halfAngleSin = sin(toRadians(angle / 2.0f));
-	float halfAngleCos = cos(toRadians(angle / 2.0f));
-
-	Quaternion rotation (
-		axis.x * halfAngleSin,
-		axis.y * halfAngleSin, 
-		axis.z * halfAngleSin, 
-		halfAngleCos
-	);
-
-	Quaternion result = rotation.mul(*this).mul(Quaternion::conjugate(rotation));
-
-	x = rotation.x;
-	y = rotation.y;
-	z = rotation.z;
-
-	return *this;
-}
-
 Vector2f Vector3f::xy()
 {
 	return Vector2f(x, y);

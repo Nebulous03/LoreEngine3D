@@ -16,7 +16,7 @@ TestScene::TestScene()
 
 	_layer = new SceneLayer(*_renderer);
 
-	Mesh* _cubeMesh = loadMesh("res/meshs/cube.obj");	// DOES NOT GET DELETED!
+	Mesh* _cubeMesh = loadMesh("res/meshes/bunny.obj");	// DOES NOT GET DELETED!S
 
 	Renderable* cube = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, -3.0f));
 	Renderable* cube2 = new Renderable(*_cubeMesh, mat4f::Translation(0.0f, 0.0f, 0.0f));

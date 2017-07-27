@@ -3,7 +3,9 @@
 
 # LoreEngine ignores
 Libraries/
-LoreEngine3D/libs/
+
+# Dont ignore meshes
+!meshes/*.obj
 
 # User-specific files
 *.suo
